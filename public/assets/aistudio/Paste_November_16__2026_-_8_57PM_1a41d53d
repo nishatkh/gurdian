@@ -1,0 +1,1383 @@
+# MASTER DEVELOPMENT PROMPT — GUARDIAN AI
+## Build a Complete AI-Powered Mobile Theft Response and Personal Security Platform
+
+You are acting as a senior full-stack engineer, Android engineer, AI/ML researcher, backend architect, UI/UX designer, DevOps engineer, and security engineer.
+
+Your task is to **research, design, implement, train, integrate, test, and document a complete working application called Guardian AI**.
+
+Do not build a static UI, landing-page-only prototype, or a collection of disconnected demo screens. Build a functional, integrated product with a real backend, database, Android application, AI services, trained ML models, and administration dashboard.
+
+You must inspect the existing project and its documentation before making architectural decisions. Preserve useful existing code and features. Improve the project rather than unnecessarily replacing everything.
+
+Do not stop after creating a plan. Work through implementation, integration, testing, and documentation.
+
+---
+
+# 1. PRODUCT IDENTITY
+
+**Product:** Guardian AI
+
+**Product category:** AI-powered mobile theft response, digital account protection, and incident management platform.
+
+**Primary market:** Bangladesh.
+
+**Primary platform:** Android.
+
+**Secondary platform:** Responsive web administration dashboard.
+
+**Primary languages:** Bangla and English.
+
+### Product vision
+
+Guardian AI helps people respond to mobile phone theft or loss through a guided, intelligent, privacy-aware, and offline-first workflow.
+
+It should help users:
+
+1. Activate an emergency or lost-phone response workflow.
+2. Record incident information and preserve an event timeline.
+3. Capture available location information with user consent.
+4. Follow device and account protection instructions.
+5. Understand what actions to take next.
+6. Prepare a structured police-report draft.
+7. Receive AI-assisted guidance in Bangla or English.
+8. Share selected incident information with authorised people.
+9. Track incident progress.
+10. Access essential features when internet connectivity is unavailable.
+
+Guardian AI is a response companion. It does not replace Android Find Hub, Apple Find My, Bangladesh Police, Online GD, BTRC/NEIR, 999, banks, or mobile financial-service providers.
+
+Never claim to have an integration with an external authority unless a real, authorised API or partnership exists.
+
+---
+
+# 2. DESIGN REFERENCE — FOLLOW THE VISUAL LANGUAGE
+
+Use the attached reference image strictly as a visual design reference.
+
+Do not reproduce its educational content, text, feature names, or exact screen structure. Apply its visual identity to Guardian AI.
+
+### Design direction
+
+Create a premium dark-mode interface with a distinctive lime-green accent.
+
+**Color system**
+
+- Primary background: near-black (#050505 or similar).
+- Secondary background: deep charcoal (#111111).
+- Card background: #171717.
+- Elevated surface: #202020.
+- Primary accent: vibrant lime green (#B6FF55 or similar).
+- Secondary accent: muted green.
+- Primary text: near-white.
+- Secondary text: soft gray.
+- Warning: restrained amber.
+- Critical alert: red, used only when necessary.
+- Borders: subtle dark gray or low-opacity lime.
+
+### Visual characteristics
+
+- Rounded cards with consistent corner radii.
+- Smooth green gradients on selected feature cards.
+- Large, clean headings.
+- Minimal icons with consistent stroke weight.
+- Subtle glow around important active controls.
+- Premium dark surfaces with clear visual hierarchy.
+- Consistent spacing and typography.
+- Smooth screen transitions and micro-interactions.
+- Carefully designed empty states, loading states, errors, and success feedback.
+- Beautiful charts and timeline visualisations.
+- Responsive layouts across different Android screen sizes.
+
+Avoid:
+- Generic admin templates.
+- Excessive neon effects.
+- Too many gradients.
+- Excessive text on dashboard cards.
+- Random colors.
+- Tiny buttons.
+- Inconsistent icon styles.
+- Unnecessary animations.
+- Crowded screens.
+
+The app should look like a carefully designed commercial security product, not a university project prototype.
+
+### Mobile navigation
+
+Use a polished bottom navigation bar:
+
+1. Home
+2. Incidents
+3. Emergency
+4. Activity
+5. Profile
+
+Make the emergency action visually distinct, but never trigger an external action without explicit confirmation.
+
+The web dashboard should use a matching design system with a responsive sidebar and compact information cards.
+
+Create a reusable design system with typography, colors, spacing, cards, buttons, icons, dialogs, bottom sheets, and form components.
+
+---
+
+# 3. APPLICATION ARCHITECTURE
+
+Build the complete system using a modular architecture.
+
+### Android application
+
+Preferred stack:
+
+- Kotlin
+- Jetpack Compose
+- Material 3 with a customised design system
+- Room / SQLite for offline storage
+- WorkManager for deferred background synchronization
+- Retrofit or Ktor for backend communication
+- DataStore for preferences
+- Android Keystore for sensitive local secrets
+- FCM for authorised push notifications
+
+Use current stable and compatible dependencies. Check Android permission policies and platform restrictions before implementing sensitive capabilities.
+
+### Backend
+
+Preferred stack:
+
+- Python
+- FastAPI
+- Pydantic
+- SQLAlchemy
+- PostgreSQL
+- pgvector
+- Redis
+- Celery or an equivalent background job system
+- JWT/OAuth-compatible authentication
+- Object storage for approved documents and attachments
+
+### Web dashboard
+
+Preferred stack:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Reusable component architecture
+- Accessible charts and data tables
+
+### AI/ML services
+
+Use separate, modular services for:
+
+- LLM provider integration
+- RAG and document retrieval
+- NLP processing
+- ML model inference
+- Report generation
+- AI evaluation
+- Model version management
+
+### Infrastructure
+
+- Docker and Docker Compose for local development.
+- Environment-based configuration.
+- Database migrations.
+- Structured logging.
+- Automated testing.
+- CI/CD-ready configuration.
+- Health-check endpoints.
+- Production deployment documentation.
+
+Keep secrets out of the frontend, source code, Git history, and logs.
+
+---
+
+# 4. CORE MOBILE APPLICATION FEATURES
+
+Implement the following features as real working functionality.
+
+## 4.1 Onboarding and authentication
+
+Build:
+
+- Premium onboarding screens.
+- Introduction to Guardian AI.
+- Explanation of how incident response works.
+- Clear permission explanations.
+- Email/phone authentication where a supported provider is configured.
+- Secure login and registration.
+- Forgot-password flow.
+- User profile.
+- Language selection.
+- Privacy settings.
+- Notification preferences.
+
+Do not ask for unnecessary permissions during onboarding. Request each permission only when the user activates the related feature.
+
+## 4.2 Home dashboard
+
+Create an attractive personalised home screen containing:
+
+- Greeting and profile summary.
+- Current device security status.
+- Emergency action card.
+- Recent incident overview.
+- Protection checklist progress.
+- Trusted contacts.
+- Quick access to official protection resources.
+- Recent activity timeline.
+- AI security assistant entry point.
+
+Use meaningful visual cards rather than a generic grid of buttons.
+
+## 4.3 Emergency / Theft Mode
+
+Implement a user-activated incident mode.
+
+Features:
+
+- Start a lost-phone or suspected-theft incident.
+- Select incident type.
+- Record date and time.
+- Capture location if permitted.
+- Record user-provided incident details.
+- Start an event timeline.
+- Save incident data locally.
+- Allow the user to add observations.
+- Display an emergency checklist.
+- Allow cancellation or correction.
+- Synchronise when internet access returns.
+
+Optional Android capabilities should be implemented only where supported by platform permissions and policy.
+
+Do not promise universal SMS-triggered activation, background surveillance, remote locking, or hidden device control.
+
+## 4.4 Incident management
+
+Create a complete incident management module.
+
+Each incident should contain:
+
+- Unique incident ID.
+- User ID.
+- Incident category.
+- Incident status.
+- User-reported date and time.
+- Available location and accuracy.
+- Device information voluntarily provided by the user.
+- IMEI field, with sensitive display and storage protections.
+- User description.
+- Attached evidence, if supplied.
+- Event timeline.
+- AI-generated summary.
+- Missing-information checklist.
+- Report draft.
+- Review status.
+- Created and updated timestamps.
+
+Incident states:
+
+- Draft
+- Active
+- Submitted for review
+- Under review
+- Additional information requested
+- Approved
+- Closed
+- Cancelled
+
+All state changes must be validated and recorded in an audit history.
+
+## 4.5 Device protection
+
+Create a guided device-security module.
+
+Include:
+
+- Android Find Hub official resource.
+- Apple Find My official resource for relevant users.
+- Device lock guidance.
+- Device erase guidance with warnings.
+- SIM-blocking guidance.
+- IMEI information and NEIR guidance.
+- Account-security checklist.
+- Device information storage.
+- Protection status tracking.
+
+External services must open their official websites or applications. Do not simulate successful locking or blocking when no real integration exists.
+
+## 4.6 Account protection
+
+Create an ordered account-protection workflow for:
+
+- Mobile operator/SIM.
+- Mobile financial services.
+- Banking applications.
+- Email accounts.
+- Google account.
+- Apple account.
+- Social media.
+- Messaging applications.
+- Other user-added services.
+
+For each item provide:
+
+- What to do.
+- Why it matters.
+- Official support link.
+- Completion status.
+- Timestamp.
+- Optional notes.
+
+The AI assistant may explain the steps, but the actual checklist state must be controlled by deterministic application logic.
+
+## 4.7 Trusted contacts
+
+Implement:
+
+- Add and remove trusted contacts.
+- Consent-based contact sharing.
+- Contact verification.
+- Incident-specific sharing permissions.
+- Alert history.
+- Revocation of access.
+- Notification preferences.
+
+Never expose a user's location or incident information to contacts without consent.
+
+## 4.8 Emergency resources
+
+Create a verified resource directory.
+
+Potential resource types:
+
+- Police stations.
+- Emergency services.
+- Official support services.
+- Mobile operators.
+- Mobile financial-service providers.
+- Relevant government resources.
+
+Each resource should have:
+
+- Name.
+- Category.
+- Address.
+- Official contact information.
+- Source URL.
+- Verification date.
+- Geographic coordinates when verified.
+
+Do not fabricate phone numbers, police stations, or addresses. Mark unverified records clearly.
+
+Use a map only when verified geographic data are available.
+
+## 4.9 Offline-first functionality
+
+This is a major product requirement.
+
+The following must work without internet:
+
+- Opening saved incident information.
+- Creating an incident.
+- Recording timeline events.
+- Updating local checklists.
+- Viewing cached emergency instructions.
+- Saving user notes.
+- Viewing previously downloaded official resources.
+
+When connectivity returns:
+
+- Synchronise pending events.
+- Resolve conflicts safely.
+- Prevent duplicate records.
+- Retry failed requests.
+- Preserve original timestamps.
+- Display synchronization status.
+
+Use an outbox pattern or equivalent reliable synchronization design.
+
+Do not silently discard local records.
+
+---
+
+# 5. GROQ AND GEMINI LLM INTEGRATION
+
+Integrate both Groq API and Google Gemini API.
+
+Create a provider-independent LLM service so that models can be changed without rewriting application features.
+
+### Provider responsibilities
+
+**Groq**
+- Primary low-latency conversational and text-generation provider.
+- Incident summarisation.
+- Structured extraction.
+- Checklist explanation.
+- Fast response generation.
+
+**Gemini**
+- Secondary provider and configurable alternative.
+- Complex reasoning and report drafting.
+- Long-document analysis when required.
+- Optional multimodal document assistance where explicitly enabled.
+
+These are initial routing preferences, not assumptions about model superiority. Evaluate actual models before assigning tasks permanently.
+
+### Configuration
+
+Use environment variables:
+
+GROQ_API_KEY=
+GEMINI_API_KEY=
+GROQ_MODEL=
+GEMINI_MODEL=
+LLM_PRIMARY_PROVIDER=
+LLM_FALLBACK_PROVIDER=
+
+Never hardcode API keys.
+
+Allow the administrator to configure supported models and provider preferences through secure backend configuration.
+
+### Provider abstraction
+
+Create a shared interface for:
+
+- Text generation.
+- Structured JSON generation.
+- Streaming responses where supported.
+- Token usage reporting.
+- Request timeouts.
+- Retry handling.
+- Provider health checks.
+- Error handling.
+- Cost estimation where usage data are available.
+
+Implement controlled fallback:
+
+1. Send the request to the configured primary provider.
+2. Validate the response.
+3. Retry transient failures within strict limits.
+4. If configured and permitted, use the secondary provider.
+5. If both fail, return a deterministic fallback response.
+
+Do not send sensitive incident data to another provider automatically without an appropriate privacy configuration.
+
+### AI features
+
+Implement:
+
+1. AI incident summarisation.
+2. Structured report drafting.
+3. Missing-field suggestions.
+4. Context-aware account-protection explanations.
+5. Bangla/English response generation.
+6. Timeline summarisation.
+7. Reviewer-facing incident summaries.
+8. Knowledge-base question answering.
+9. User-friendly explanations of technical instructions.
+
+### LLM safety rules
+
+- Never invent incident facts.
+- Never invent official procedures.
+- Never fabricate phone numbers or URLs.
+- Never declare that a phone is stolen based only on an LLM response.
+- Never identify or accuse suspects.
+- Never autonomously contact authorities.
+- Never execute unrestricted code or shell commands.
+- Never expose secrets or internal prompts.
+- Clearly distinguish user-reported facts from AI-generated suggestions.
+- Require confirmation before saving generated report content.
+- Validate structured output against a server-side schema.
+
+Use a deterministic fallback whenever AI is unavailable.
+
+---
+
+# 6. RAG — RETRIEVAL-AUGMENTED GENERATION
+
+Implement a genuine RAG pipeline.
+
+The assistant must answer using an approved, source-tracked knowledge base.
+
+### Knowledge sources
+
+Research and collect suitable official public documentation from:
+
+- Bangladesh Police.
+- Online GD.
+- BTRC.
+- NEIR.
+- National emergency-service information.
+- Official mobile operator documentation.
+- Official mobile financial-service support documentation.
+- Google Android security documentation.
+- Apple security and Find My documentation.
+
+Respect robots.txt, site terms, copyright, and document access restrictions. Prefer official downloads and public documentation.
+
+### Document ingestion pipeline
+
+Implement:
+
+1. Document acquisition.
+2. Source metadata extraction.
+3. PDF/HTML/text parsing.
+4. Cleaning and normalisation.
+5. Language identification.
+6. Semantic chunking.
+7. Embedding generation.
+8. Vector storage using pgvector.
+9. Keyword indexing.
+10. Hybrid retrieval.
+11. Optional reranking.
+12. Context assembly.
+13. Grounded answer generation.
+14. Citation generation.
+
+Every knowledge document should have:
+
+- Source title.
+- Source URL.
+- Publisher.
+- Date retrieved.
+- Last verified date.
+- Language.
+- Jurisdiction.
+- Document version.
+- Trust level.
+
+### Retrieval methods
+
+Compare:
+
+- BM25 keyword retrieval.
+- Dense vector retrieval.
+- Hybrid retrieval.
+- Optional cross-encoder reranking.
+
+Select the approach based on measured retrieval quality.
+
+### RAG safety
+
+- Display citations.
+- Show the source verification date.
+- Do not answer official-procedure questions without reliable evidence.
+- Clearly say when the knowledge base does not contain an answer.
+- Do not present outdated information as current.
+- Support Bangla and English queries.
+
+---
+
+# 7. MACHINE LEARNING RESEARCH AND MODEL TRAINING
+
+You must implement a real, reproducible ML workflow.
+
+Do not simply import a pretrained model and call it a trained Guardian AI model.
+
+First investigate the available public datasets and identify which research tasks they genuinely support.
+
+## 7.1 Dataset research
+
+Search credible public dataset sources:
+
+- UCI Machine Learning Repository.
+- Kaggle.
+- Hugging Face Datasets.
+- Zenodo.
+- Academic research repositories.
+- Official open-data portals.
+
+For every candidate dataset, record:
+
+- Dataset name.
+- Publisher.
+- Download URL.
+- Licence.
+- Dataset size.
+- Number of records.
+- Features.
+- Target labels.
+- Collection method.
+- Limitations.
+- Why it is relevant to Guardian AI.
+
+Download suitable datasets using official download methods.
+
+If a dataset requires authentication, document the required credentials and provide setup instructions. Never bypass access restrictions.
+
+Do not fabricate a dataset or pretend a dataset contains theft labels when it does not.
+
+## 7.2 Critical dataset limitation
+
+A public dataset containing labelled Bangladeshi mobile-phone theft events has not yet been established.
+
+Therefore, do not train a fake theft detector or report fabricated accuracy.
+
+Investigate suitable smartphone sensor, human-activity, device-context, and anomaly-detection datasets.
+
+Potential candidates to evaluate include:
+
+- UCI Human Activity Recognition Using Smartphones.
+- WISDM Smartphone and Smartwatch Activity Dataset.
+- ExtraSensory mobile sensor dataset.
+- Other credible mobile-device activity datasets found during research.
+
+Verify each dataset's current availability, licence, schema, and actual labels before using it.
+
+These datasets describe activity or sensor context. They are not automatically phone-theft datasets.
+
+Use them only for the tasks they support.
+
+## 7.3 Proposed ML tasks
+
+### Task A — Device activity/context classification
+
+Train and compare suitable models to classify supported activity patterns from mobile sensor features.
+
+Candidate algorithms:
+
+- Logistic Regression.
+- Decision Tree.
+- Random Forest.
+- Support Vector Machine.
+- Gradient Boosting.
+- XGBoost or LightGBM where justified.
+
+Evaluate:
+
+- Accuracy.
+- Precision.
+- Recall.
+- F1-score.
+- Confusion matrix.
+- Per-class performance.
+- Inference time.
+
+This module must be described as activity/context classification, not theft prediction.
+
+### Task B — Anomaly detection
+
+Investigate unusual event-pattern detection using appropriate data.
+
+Candidate algorithms:
+
+- Isolation Forest.
+- Local Outlier Factor.
+- One-Class SVM.
+- Statistical anomaly baselines.
+- Autoencoder only if the data and research justify its complexity.
+
+Output should mean unusual activity, not confirmed theft.
+
+The application may use this as a supplementary signal for a user-confirmed response workflow.
+
+### Task C — Rule-based incident assessment
+
+Implement a transparent baseline using:
+
+- User-confirmed incident status.
+- Event sequence.
+- Relevant device-state changes where supported.
+- Missing information.
+- User-provided context.
+
+Compare the baseline with ML where valid labelled data exist.
+
+Do not allow the ML model to independently declare that a device has been stolen.
+
+## 7.4 Dataset training pipeline
+
+Create a dedicated directory:
+
+ml/
+  datasets/
+  raw/
+  processed/
+  notebooks/
+  src/
+  models/
+  evaluation/
+  reports/
+  configs/
+
+Implement:
+
+- Dataset download scripts.
+- Dataset licence/provenance records.
+- Data validation.
+- Preprocessing.
+- Missing-value handling.
+- Feature engineering.
+- Label validation.
+- Participant-aware train/validation/test splitting when participant IDs exist.
+- Class-imbalance analysis.
+- Model training.
+- Hyperparameter tuning.
+- Model evaluation.
+- Model serialization.
+- Model versioning.
+- Inference API.
+- Reproducibility configuration.
+
+Never include private participant data in Git.
+
+Use fixed random seeds and save training configuration.
+
+### Training deliverables
+
+Produce:
+
+- Actual trained model artifacts.
+- Model configuration files.
+- Training logs.
+- Evaluation reports.
+- Confusion matrices.
+- Feature-importance reports.
+- Dataset provenance.
+- Model cards.
+- Limitations and intended-use statements.
+
+If a dataset cannot be downloaded or legally used, document the blocker and do not pretend training occurred.
+
+---
+
+# 8. EXPLAINABLE AI
+
+Where ML models are used, provide understandable explanations.
+
+Implement suitable techniques:
+
+- Logistic Regression coefficients.
+- Permutation feature importance.
+- Tree-based feature importance.
+- SHAP for appropriate tree models.
+- Deterministic rule traces.
+
+The interface should explain:
+
+- Which available signals influenced an assessment.
+- What the system observed.
+- What information is missing.
+- How uncertain the result is.
+- Why the system is recommending a user action.
+
+Never display an anomaly score as proof of theft.
+
+---
+
+# 9. NLP AND BANGLA LANGUAGE SUPPORT
+
+Support:
+
+- Bangla.
+- English.
+- Bangla-English code mixing where feasible.
+
+Implement language selection and test the model's real capabilities.
+
+Potential NLP features:
+
+- Incident narrative extraction.
+- Date/time extraction.
+- Location extraction.
+- Device-information extraction.
+- Intent classification.
+- Text normalisation.
+- Summary generation.
+- Translation.
+- Voice transcription as an optional future module.
+
+Use structured extraction and ask users to confirm uncertain fields.
+
+Create a test dataset covering:
+
+- Standard Bangla.
+- English.
+- Banglish.
+- Spelling variations.
+- Short descriptions.
+- Long descriptions.
+- Ambiguous statements.
+
+Do not claim Bangla accuracy without evaluation.
+
+---
+
+# 10. AI ASSISTANT INTERFACE
+
+Build a premium Guardian AI assistant.
+
+It should support:
+
+- Conversational questions.
+- Context from the user's active incident when permitted.
+- Knowledge-base citations.
+- Bangla and English.
+- Suggested questions.
+- Streaming responses.
+- Loading indicators.
+- Retry controls.
+- Copy response.
+- Source details.
+- Clear uncertainty messages.
+
+Example questions:
+
+- "What should I do immediately after my phone is stolen?"
+- "How can I block my SIM?"
+- "What information do I need for an Online GD?"
+- "Summarise my incident timeline."
+- "Which protection steps have I not completed?"
+- "Prepare a draft report from my confirmed incident details."
+
+The assistant must not have unrestricted access to the user's data. Use explicit context selection and least-privilege permissions.
+
+---
+
+# 11. INCIDENT REPORT GENERATION
+
+Build a complete AI-assisted reporting workflow.
+
+Input sources:
+
+- User-confirmed incident fields.
+- Timeline events.
+- User-provided narrative.
+- Available device information.
+- User-confirmed location.
+- Selected evidence.
+
+Output:
+
+- Incident summary.
+- Date and time.
+- Incident location.
+- Device description.
+- IMEI if provided.
+- Incident narrative.
+- Actions already completed.
+- Missing information.
+- Report draft.
+
+Use a fixed report schema.
+
+The AI may improve wording, but it must not add facts.
+
+Show the user the original fields beside the generated draft so they can verify it.
+
+Provide export options such as PDF and print-ready formats.
+
+Clearly mark the result as a draft, not an officially submitted General Diary.
+
+---
+
+# 12. WEB ADMINISTRATION DASHBOARD
+
+Build a fully functional dashboard.
+
+### Dashboard overview
+
+Display:
+
+- Total incidents.
+- Active incidents.
+- Incidents awaiting review.
+- Closed incidents.
+- Recent activity.
+- Incident trends.
+- Review workload.
+- Synchronization and system health.
+
+Do not display fabricated statistics. Use actual database records and meaningful empty states.
+
+### Incident review
+
+Administrators and authorised reviewers should be able to:
+
+- View permitted incident details.
+- Review incident timelines.
+- Inspect AI-generated summaries.
+- See missing fields.
+- Request corrections.
+- Approve or reject internal review.
+- Update incident status.
+- Add reviewer notes.
+- View audit history.
+
+A reviewer decision must not automatically submit a police report.
+
+### User management
+
+- User list.
+- Role assignment.
+- Account status.
+- Access history.
+- Permission management.
+
+### Knowledge management
+
+- Add approved documents.
+- View source metadata.
+- Update verification dates.
+- Re-index documents.
+- Disable outdated sources.
+- Inspect ingestion status.
+
+### AI and model monitoring
+
+Display:
+
+- Active LLM provider.
+- Configured model.
+- Request count.
+- Latency.
+- Error rate.
+- Token usage where available.
+- Fallback usage.
+- Model version.
+- ML inference statistics.
+
+Never expose API keys or private prompts.
+
+### Audit logs
+
+Record:
+
+- Login events.
+- Sensitive data access.
+- Incident changes.
+- Reviewer decisions.
+- Document updates.
+- AI actions.
+- Administrative operations.
+
+Use role-based permissions and least privilege.
+
+---
+
+# 13. DATABASE DESIGN
+
+Design a proper relational schema.
+
+Include appropriate entities such as:
+
+- users
+- user_profiles
+- devices
+- incidents
+- incident_events
+- incident_locations
+- incident_evidence
+- protection_checklists
+- checklist_items
+- trusted_contacts
+- contact_shares
+- emergency_resources
+- report_drafts
+- report_reviews
+- knowledge_documents
+- knowledge_chunks
+- embeddings
+- model_versions
+- model_predictions
+- ai_interactions
+- notifications
+- audit_logs
+- sync_events
+
+Use:
+
+- Primary keys.
+- Foreign keys.
+- Appropriate indexes.
+- Created/updated timestamps.
+- Soft deletion where appropriate.
+- Data retention rules.
+- Database migrations.
+- Transactional integrity.
+
+Store only necessary information.
+
+Encrypt sensitive information where appropriate and restrict access to IMEI, location, and personal data.
+
+---
+
+# 14. BACKEND API DESIGN
+
+Implement documented REST APIs.
+
+Example groups:
+
+Authentication:
+- POST /api/v1/auth/register
+- POST /api/v1/auth/login
+- POST /api/v1/auth/refresh
+
+Users:
+- GET /api/v1/users/me
+- PATCH /api/v1/users/me
+
+Devices:
+- GET /api/v1/devices
+- POST /api/v1/devices
+- PATCH /api/v1/devices/{id}
+
+Incidents:
+- POST /api/v1/incidents
+- GET /api/v1/incidents
+- GET /api/v1/incidents/{id}
+- PATCH /api/v1/incidents/{id}
+- POST /api/v1/incidents/{id}/events
+- GET /api/v1/incidents/{id}/timeline
+
+AI:
+- POST /api/v1/ai/chat
+- POST /api/v1/ai/summarise
+- POST /api/v1/ai/extract
+- POST /api/v1/ai/report-draft
+- POST /api/v1/ai/retrieve
+
+Protection:
+- GET /api/v1/protection/checklist
+- PATCH /api/v1/protection/checklist/{id}
+
+Resources:
+- GET /api/v1/resources
+- GET /api/v1/resources/{id}
+
+Administration:
+- GET /api/v1/admin/dashboard
+- GET /api/v1/admin/incidents
+- POST /api/v1/admin/incidents/{id}/review
+- GET /api/v1/admin/audit-logs
+
+These are suggested route names. Adapt them to the final domain model.
+
+Implement request validation, authentication, authorisation, pagination, rate limits, error handling, and OpenAPI documentation.
+
+---
+
+# 15. SECURITY AND PRIVACY
+
+Treat this as a sensitive public-safety application.
+
+Implement:
+
+- Secure authentication.
+- Password hashing.
+- Role-based access control.
+- Encryption in transit.
+- Encryption at rest.
+- Secure secret management.
+- Rate limiting.
+- Input validation.
+- SQL injection protection.
+- CSRF protection where applicable.
+- Secure file upload validation.
+- Audit logging.
+- Session management.
+- Data minimisation.
+- User consent.
+- Data export and deletion workflows.
+- Retention policies.
+
+Never store banking passwords, wallet PINs, OTPs, or account recovery secrets.
+
+Never collect private messages or contact lists for theft prediction.
+
+Location access must be permission-based and limited to a clear user-facing purpose.
+
+Protect against malicious incident submissions, stalking, unauthorised sharing, and abuse of reviewer privileges.
+
+Do not create an unsafe feature merely because it appears technically possible.
+
+---
+
+# 16. TESTING REQUIREMENTS
+
+Test the entire system, not just individual screens.
+
+### Android tests
+
+- Onboarding.
+- Authentication.
+- Incident creation.
+- Incident editing.
+- Offline incident storage.
+- Sync after reconnection.
+- Permission denial.
+- Permission revocation.
+- Timeline.
+- Checklist.
+- AI response.
+- Report drafting.
+- Error states.
+
+### Backend tests
+
+- Authentication.
+- Authorisation.
+- CRUD.
+- Schema validation.
+- Incident ownership.
+- Audit logging.
+- Synchronization.
+- LLM provider failures.
+- RAG retrieval.
+- Report validation.
+- Rate limits.
+
+### ML tests
+
+- Dataset integrity.
+- Reproducible training.
+- Data leakage checks.
+- Held-out evaluation.
+- Model loading.
+- Inference.
+- Input validation.
+- Model-version compatibility.
+
+### Frontend tests
+
+- Responsive layout.
+- Navigation.
+- Loading states.
+- Empty states.
+- API integration.
+- Error handling.
+- Accessibility.
+
+### Integration tests
+
+Demonstrate a complete workflow:
+
+1. User registers.
+2. User creates an incident.
+3. Incident is saved locally.
+4. Backend receives the incident.
+5. User completes protection steps.
+6. AI summarises the confirmed information.
+7. RAG retrieves relevant official guidance.
+8. User reviews the report draft.
+9. Reviewer sees the incident.
+10. Reviewer requests missing information.
+11. User updates the incident.
+12. Reviewer closes the internal review.
+13. The audit history records all actions.
+
+Test network interruption and recovery.
+
+---
+
+# 17. PROJECT STRUCTURE
+
+Use a clean monorepo structure similar to:
+
+guardian-ai/
+  android/
+  backend/
+    app/
+      api/
+      core/
+      models/
+      schemas/
+      services/
+      repositories/
+      ai/
+      rag/
+      ml/
+      workers/
+      tests/
+    migrations/
+  dashboard/
+  ml/
+    datasets/
+    raw/
+    processed/
+    notebooks/
+    src/
+    models/
+    evaluation/
+    reports/
+  knowledge_base/
+    raw/
+    processed/
+    metadata/
+  infrastructure/
+    docker/
+    scripts/
+  docs/
+  .env.example
+  docker-compose.yml
+  README.md
+
+Adapt the structure if an existing repository already has a better architecture.
+
+---
+
+# 18. DEVELOPMENT WORKFLOW
+
+Follow this implementation order.
+
+### Phase 1 — Repository inspection and planning
+
+- Inspect existing files and architecture.
+- Identify existing functionality.
+- Identify missing components.
+- Check dependencies and runtime versions.
+- Write an implementation plan.
+- Preserve working functionality.
+
+### Phase 2 — Design system and frontend
+
+- Build the Guardian AI design system.
+- Implement navigation.
+- Implement onboarding.
+- Implement home dashboard.
+- Implement incident screens.
+- Implement assistant screens.
+- Implement account-protection screens.
+- Implement profile and settings.
+- Build the responsive admin dashboard.
+
+Use realistic sample data only for UI development and clearly separate it from production data.
+
+### Phase 3 — Backend and database
+
+- Implement database schema.
+- Create migrations.
+- Implement authentication.
+- Implement APIs.
+- Implement incident management.
+- Implement event timeline.
+- Implement audit logs.
+- Implement reviewer roles.
+
+### Phase 4 — AI services
+
+- Integrate Groq.
+- Integrate Gemini.
+- Build provider abstraction.
+- Implement structured LLM outputs.
+- Implement RAG.
+- Implement citations.
+- Implement report generation.
+- Implement deterministic fallbacks.
+
+### Phase 5 — Dataset research and ML
+
+- Research public datasets.
+- Verify licences and suitability.
+- Download suitable datasets.
+- Document provenance.
+- Train candidate models.
+- Compare results.
+- Save model artifacts.
+- Integrate valid models through an inference service.
+- Document limitations.
+
+### Phase 6 — Offline-first integration
+
+- Implement local persistence.
+- Implement sync queue.
+- Handle conflicts.
+- Test network failures.
+- Preserve user data.
+
+### Phase 7 — Security and testing
+
+- Test permissions.
+- Test data access.
+- Test API security.
+- Test AI failure cases.
+- Test ML inference.
+- Test full workflows.
+- Fix critical bugs.
+
+### Phase 8 — Final delivery
+
+Provide:
+
+- Working Android application.
+- Working backend.
+- Working web dashboard.
+- Database migrations.
+- Docker configuration.
+- Trained model files.
+- Training scripts.
+- Dataset documentation.
+- Evaluation reports.
+- API documentation.
+- README.
+- Environment variable template.
+- Installation instructions.
+- Deployment instructions.
+- Demo workflow.
+
+---
+
+# 19. NON-NEGOTIABLE DEVELOPMENT RULES
+
+1. Do not build a frontend-only mockup.
+2. Do not create buttons that do nothing.
+3. Do not use fake API responses in the completed application.
+4. Do not fabricate model training or performance.
+5. Do not claim that a dataset contains theft labels when it does not.
+6. Do not invent official integrations.
+7. Do not expose API keys.
+8. Do not send sensitive data to LLM providers without appropriate privacy controls.
+9. Do not let an LLM make final emergency or law-enforcement decisions.
+10. Do not remove existing working functionality without justification.
+11. Do not leave critical functionality as TODO comments.
+12. Do not stop after writing documentation.
+13. Do not report a feature as completed until it has been tested.
+14. Do not hide failures behind mock data.
+15. Prefer a smaller number of fully working features over many incomplete features.
+
+If a capability is blocked by Android restrictions, unavailable APIs, missing permissions, or unavailable datasets, explain the limitation and implement the safest valid alternative.
+
+---
+
+# 20. FINAL ACCEPTANCE CRITERIA
+
+The project is complete only when:
+
+- The Android app launches and navigates correctly.
+- The backend runs and connects to the database.
+- Authentication works.
+- Incidents can be created, updated, and reviewed.
+- Offline incident records survive application restarts.
+- Synchronization works after reconnection.
+- Groq API integration works with a real configured key.
+- Gemini API integration works with a real configured key.
+- Provider fallback is tested.
+- RAG retrieves actual approved documents and displays sources.
+- AI-generated reports are validated and user-editable.
+- Suitable ML datasets have been downloaded where legally accessible.
+- Actual model training has been performed and evaluated, or a documented data limitation explains why a particular model could not be trained.
+- Valid trained models can be loaded by the inference service.
+- The admin dashboard uses real backend data.
+- Permissions and role restrictions work.
+- Sensitive data are protected.
+- Automated tests pass.
+- Setup and deployment instructions are reproducible.
+
+At the end, provide a concise implementation report containing:
+
+1. Features completed.
+2. Features partially completed.
+3. Features blocked and why.
+4. Technology stack actually used.
+5. Dataset names and download sources.
+6. Models actually trained.
+7. Evaluation metrics actually measured.
+8. Groq and Gemini integration status.
+9. RAG implementation status.
+10. Test results.
+11. Installation and execution instructions.
+12. Remaining limitations.
+
+**Final objective:** Deliver Guardian AI as a polished, functional, AI-powered mobile security platform with a premium interface, reliable backend, genuine AI integrations, reproducible ML experiments, offline-first incident handling, and strong privacy safeguards. Prioritise correctness, usability, security, and demonstrable functionality over the number of technologies used.

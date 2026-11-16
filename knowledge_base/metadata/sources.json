@@ -1,0 +1,86 @@
+[
+  {
+    "doc_id": "bd_online_gd_01",
+    "title": "Bangladesh Police Online GD (General Diary) Lost & Theft Filing Guide",
+    "publisher": "Bangladesh Police",
+    "source_url": "https://gd.police.gov.bd/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "bd_999_emergency_02",
+    "title": "National Emergency Service 999 Official Guidance",
+    "publisher": "Bangladesh Police / National Emergency Service 999",
+    "source_url": "https://nhd.gov.bd/999",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "btrc_neir_03",
+    "title": "BTRC & NEIR IMEI Verification and Handset Registration Guidance",
+    "publisher": "Bangladesh Telecommunication Regulatory Commission (BTRC)",
+    "source_url": "https://www.btrc.gov.bd/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "google_find_hub_04",
+    "title": "Android Find Hub (Find My Device) Lock & Erase Official Guidance",
+    "publisher": "Google Android Security",
+    "source_url": "https://www.google.com/android/find/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "en",
+    "jurisdiction": "Global",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "apple_find_my_05",
+    "title": "Apple Find My & Lost Mode Official Security Guidance",
+    "publisher": "Apple Inc.",
+    "source_url": "https://support.apple.com/en-us/101593",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "en",
+    "jurisdiction": "Global",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "bd_telecom_sim_06",
+    "title": "Bangladesh Mobile Operators SIM Blocking & Replacement Official Support",
+    "publisher": "Grameenphone / Robi / Banglalink / Teletalk Official Support",
+    "source_url": "https://www.grameenphone.com/personal/customer-service",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official"
+  },
+  {
+    "doc_id": "bd_mfs_protection_07",
+    "title": "Bangladesh Mobile Financial Services (bKash, Nagad, Rocket) Account Suspension Guidance",
+    "publisher": "bKash / Nagad / DBBL Rocket Official Customer Care",
+    "source_url": "https://www.bkash.com/en/help",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official"
+  }
+]

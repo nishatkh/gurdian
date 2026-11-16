@@ -1,0 +1,93 @@
+[
+  {
+    "doc_id": "bd_online_gd_01",
+    "title": "Bangladesh Police Online GD (General Diary) Lost & Theft Filing Guide",
+    "publisher": "Bangladesh Police",
+    "source_url": "https://gd.police.gov.bd/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "To file an Online General Diary (GD) in Bangladesh for a lost or stolen mobile phone, visit the official Bangladesh Police Online GD portal (https://gd.police.gov.bd/) or use the official Online GD Android application. Required information typically includes: (1) Applicant National ID (NID) number, mobile number, and date of birth for identity verification; (2) Date, approximate time, and exact place/police station (Thana) area where the device was lost or stolen; (3) Device brand, model, color, and 15-digit IMEI number(s) (IMEI 1 and IMEI 2 for dual-SIM devices); (4) Active SIM number(s) inside the handset; (5) Clear narrative of how the loss or theft occurred. Note: For suspected snatching, robbery, or violent theft, contact 999 immediately or visit the nearest Thana in person, as serious criminal offenses may require an FIR (First Information Report) rather than a lost-property GD. Guardian AI prepares a structured draft only and does NOT submit directly to Bangladesh Police.\n\nবাংলাদেশ পুলিশ অনলাইন জিডি (General Diary) নির্দেশিকা: মোবাইল ফোন হারানো বা চুরির ক্ষেত্রে অফিসিয়াল পোর্টাল https://gd.police.gov.bd/ অথবা অফিসিয়াল Online GD অ্যাপ ব্যবহার করুন। সাধারণত প্রয়োজন হয়: (১) জাতীয় পরিচয়পত্র (NID) নম্বর, জন্ম তারিখ ও সচল মোবাইল নম্বর; (২) হারানোর তারিখ, সময় ও সম্ভাব্য স্থান/থানা এলাকা; (৩) ফোনের ব্র্যান্ড, মডেল, রঙ ও ১৫-ডিজিটের IMEI নম্বর; (৪) ফোনে থাকা সিম নম্বর; (৫) ঘটনার সংক্ষিপ্ত বিবরণ। ছিনতাই বা ডাকাতির ক্ষেত্রে অবিলম্বে ৯৯৯-এ কল করুন অথবা নিকটস্থ থানায় সরাসরি যোগাযোগ করুন।"
+  },
+  {
+    "doc_id": "bd_999_emergency_02",
+    "title": "National Emergency Service 999 Official Guidance",
+    "publisher": "Bangladesh Police / National Emergency Service 999",
+    "source_url": "https://nhd.gov.bd/999",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "999 is the toll-free 24/7 National Emergency Service of Bangladesh operated under Bangladesh Police, connecting callers to Police, Fire Service, and Ambulance support. Dial 999 from any mobile or landline in Bangladesh during active theft, snatching, physical threat, or immediate safety danger. Give the operator your exact location, landmark, and nature of the emergency. Guardian AI never dials 999 automatically without explicit user confirmation.\n\nজাতীয় জরুরি সেবা ৯৯৯: বাংলাদেশ পুলিশের অধীনে ২৪ ঘণ্টা টোল-ফ্রি জরুরি নম্বর ৯৯৯। ছিনতাই, তাৎক্ষণিক চুরি বা নিরাপত্তাজনিত ঝুঁকি থাকলে যেকোনো সচল নম্বর থেকে ৯৯৯-এ কল করুন এবং আপনার অবস্থান ও ঘটনার বিবরণ জানান।"
+  },
+  {
+    "doc_id": "btrc_neir_03",
+    "title": "BTRC & NEIR IMEI Verification and Handset Registration Guidance",
+    "publisher": "Bangladesh Telecommunication Regulatory Commission (BTRC)",
+    "source_url": "https://www.btrc.gov.bd/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "Before losing a phone, record your 15-digit IMEI number by dialing *#06# on your phone dialer or checking the original retail box and purchase invoice. BTRC (Bangladesh Telecommunication Regulatory Commission) maintains the NEIR (National Equipment Identity Register) portal (neir.btrc.gov.bd) for handset registration status in Bangladesh. When filing a police GD or requesting operator/regulatory tracking support, provide the exact 15-digit IMEI and purchase receipt. Keep your IMEI private and share it only with trusted authorities.\n\nবিটিআরসি ও এনইআইআর (NEIR) নির্দেশিকা: ফোন হারানোর আগেই *#06# ডায়াল করে অথবা ফোনের বক্স/ক্যাশ মেমো থেকে ১৫-ডিজিটের IMEI নম্বর সংরক্ষণ করুন। জিডি করার সময় এবং বিটিআরসি/আইন-শৃঙ্খলা বাহিনীর সহায়তা নিতে হলে সঠিক IMEI ও ক্রয়ের রশিদ প্রয়োজন হয়।"
+  },
+  {
+    "doc_id": "google_find_hub_04",
+    "title": "Android Find Hub (Find My Device) Lock & Erase Official Guidance",
+    "publisher": "Google Android Security",
+    "source_url": "https://www.google.com/android/find/",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "en",
+    "jurisdiction": "Global",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "If an Android phone is lost or stolen, open Google's official Find Hub at https://www.google.com/android/find/ from another trusted device and sign in with the Google Account linked to the missing phone. Recommended official steps: (1) Check last known location and battery/network status; (2) Use 'Secure device' to lock the screen with your PIN/password and optionally display a recovery message or callback number; (3) Change your Google Account password immediately at https://myaccount.google.com/security and revoke suspicious active sessions; (4) WARNING before using 'Factory reset device' (Erase): erasing wipes all local data and disables further remote location tracking via Find Hub. Do not erase the device until you have recorded needed details unless sensitive local data risk is critical."
+  },
+  {
+    "doc_id": "apple_find_my_05",
+    "title": "Apple Find My & Lost Mode Official Security Guidance",
+    "publisher": "Apple Inc.",
+    "source_url": "https://support.apple.com/en-us/101593",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "en",
+    "jurisdiction": "Global",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "For lost or stolen iPhone/iPad devices, open https://www.icloud.com/find or the Find My app on another Apple device. Enable 'Mark As Lost' (Lost Mode) immediately to remotely lock the device with a passcode, suspend Apple Pay cards, and show a contact message. Update your Apple Account password at https://account.apple.com and review trusted devices. Do not remove the device from Find My while it is missing, because Activation Lock prevents unauthorized reuse."
+  },
+  {
+    "doc_id": "bd_telecom_sim_06",
+    "title": "Bangladesh Mobile Operators SIM Blocking & Replacement Official Support",
+    "publisher": "Grameenphone / Robi / Banglalink / Teletalk Official Support",
+    "source_url": "https://www.grameenphone.com/personal/customer-service",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "Block your SIM immediately after phone loss or theft to stop attackers from receiving SMS OTPs for banking, MFS, and social accounts. Official Bangladesh operator customer care shortcodes from an active SIM of the same network: Grameenphone: 121 (from GP) or 01711594594 from other operators (https://www.grameenphone.com); Robi/Airtel: 121 (https://www.robi.com.bd); Banglalink: 121 (https://www.banglalink.net); Teletalk: 121 (https://www.teletalk.com.bd). After temporarily blocking the SIM via customer care verification (NID details), visit an official customer care center with your original NID and biometric verification to issue a replacement SIM and deactivate the lost SIM permanently.\n\nসিম ব্লক করার নিয়ম (বাংলাদেশ): ফোন চুরি বা হারালে সবার আগে আপনার সিমটি সাময়িকভাবে ব্লক করুন যেন কেউ ব্যাংক বা বিকাশ/নগদ/রকেট OTP না পায়। গ্রামীণফোন, রবি, বাংলালিংক ও টেলিটক কাস্টমার কেয়ার (স্ব-স্ব নেটওয়ার্ক থেকে ১২১, অথবা অফিসিয়াল হেল্পলাইনে) কল করে NID তথ্য দিয়ে সিমটি স্থগিত করুন এবং দ্রুত অফিসিয়াল কাস্টমার কেয়ারে বায়োমেট্রিক ভেরিফিকেশনের মাধ্যমে নতুন সিম উত্তোলন করুন।"
+  },
+  {
+    "doc_id": "bd_mfs_protection_07",
+    "title": "Bangladesh Mobile Financial Services (bKash, Nagad, Rocket) Account Suspension Guidance",
+    "publisher": "bKash / Nagad / DBBL Rocket Official Customer Care",
+    "source_url": "https://www.bkash.com/en/help",
+    "date_retrieved": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "language": "bilingual",
+    "jurisdiction": "BD",
+    "version": "1.0",
+    "trust_level": "official",
+    "content": "Immediately notify your Mobile Financial Service (MFS) and banking providers if your phone or SIM is lost or stolen: bKash official helpline 16247 (https://www.bkash.com/en/help); Nagad official helpline 16167 or 09609616167 (https://nagad.com.bd); Dutch-Bangla Bank Rocket helpline 16216 (https://www.dutchbanglabank.com/rocket/rocket.html). Request temporary account freeze/lock using your registered NID verification. NEVER share your MFS PIN, banking password, or OTP with anyone—even someone claiming to be customer support.\n\nবিকাশ, নগদ, রকেট ও ব্যাংক অ্যাকাউন্ট সুরক্ষা: ফোন বা সিম হারানোর সাথে সাথে বিকাশ (১৬২৪৭), নগদ (১৬১৬৭), রকেট (১৬২১৬) ও সংশ্লিষ্ট ব্যাংকের হেল্পলাইনে কল করে অ্যাকাউন্ট সাময়িকভাবে ফ্রিজ করুন। কখনোই আপনার পিন, পাসওয়ার্ড বা ওটিপি কারও সাথে শেয়ার করবেন না।"
+  }
+]

@@ -1,0 +1,49 @@
+# Android / Gradle
+*.iml
+.gradle
+.gradle/
+.kotlin
+.kotlin/
+/local.properties
+local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+build/
+**/build/
+.build-outputs/
+/captures
+.externalNativeBuild
+.cxx
+debug.keystore
+
+# Environment & Local Secrets
+.env
+backend/.env
+*.local
+
+# Python & Backend
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
+*.sqlite
+*.sqlite3
+
+# Next.js Admin Dashboard
+node_modules/
+**/node_modules/
+dashboard/.next/
+dashboard/out/
+*.tsbuildinfo
+
+# ML Raw Downloaded Datasets (reproducible via ml/src/download_datasets.py)
+ml/raw/
+ml/raw/**
+!ml/raw/uci_har/download_manifest.json

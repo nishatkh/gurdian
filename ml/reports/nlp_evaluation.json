@@ -1,0 +1,221 @@
+{
+  "total_cases": 8,
+  "intent_accuracy": 0.875,
+  "brand_accuracy": 1.0,
+  "imei_detection_accuracy": 1.0,
+  "location_accuracy": 1.0,
+  "time_mention_accuracy": 1.0,
+  "cases": [
+    {
+      "id": "en_01",
+      "category": "standard_english",
+      "language": "en",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "en",
+        "intent": "report_theft",
+        "device_brand": "Samsung",
+        "location_mention": "Farmgate Bus Stand",
+        "time_mentions": [
+          "5:30 PM",
+          "14 November 2026"
+        ],
+        "imei_detected": true,
+        "imei_masked": "***********3809",
+        "imei_luhn_valid": true,
+        "uncertain_fields": [],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "bn_01",
+      "category": "standard_bangla",
+      "language": "bn",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "bn",
+        "intent": "report_theft",
+        "device_brand": "Xiaomi",
+        "location_mention": "মিরপুর ১০",
+        "time_mentions": [
+          "গতকাল"
+        ],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "bn_02",
+      "category": "standard_bangla",
+      "language": "bn",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "bn",
+        "intent": "report_loss",
+        "device_brand": null,
+        "location_mention": "ধানমন্ডি ২৭",
+        "time_mentions": [
+          "9:30 মিনিটে",
+          "আজ",
+          "সকাল"
+        ],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "device_brand_and_model",
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "banglish_01",
+      "category": "banglish",
+      "language": "mixed",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "en",
+        "intent": "sim_block_help",
+        "device_brand": "Apple",
+        "location_mention": "Uttara Sector 7",
+        "time_mentions": [
+          "bikale"
+        ],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "en_02",
+      "category": "short_query",
+      "language": "en",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "en",
+        "intent": "gd_guidance",
+        "device_brand": "Vivo",
+        "location_mention": null,
+        "time_mentions": [],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "incident_location",
+          "incident_time",
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "banglish_02",
+      "category": "spelling_variation",
+      "language": "mixed",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "en",
+        "intent": "account_protection",
+        "device_brand": null,
+        "location_mention": "Gulshan 1",
+        "time_mentions": [],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "device_brand_and_model",
+          "incident_time",
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "ambig_01",
+      "category": "ambiguous",
+      "language": "en",
+      "intent_match": true,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "en",
+        "intent": "report_loss",
+        "device_brand": null,
+        "location_mention": null,
+        "time_mentions": [
+          "afternoon"
+        ],
+        "imei_detected": false,
+        "imei_masked": null,
+        "imei_luhn_valid": false,
+        "uncertain_fields": [
+          "device_brand_and_model",
+          "incident_location",
+          "imei_15_digit"
+        ],
+        "requires_user_confirmation": true
+      }
+    },
+    {
+      "id": "bn_03",
+      "category": "long_description",
+      "language": "bn",
+      "intent_match": false,
+      "brand_match": true,
+      "imei_match": true,
+      "location_match": true,
+      "time_match": true,
+      "predicted": {
+        "language_detected": "mixed",
+        "intent": "sim_block_help",
+        "device_brand": "Realme",
+        "location_mention": "মতিঝিল",
+        "time_mentions": [
+          "2:15 টায়",
+          "দুপুর"
+        ],
+        "imei_detected": true,
+        "imei_masked": "***********4567",
+        "imei_luhn_valid": false,
+        "uncertain_fields": [],
+        "requires_user_confirmation": true
+      }
+    }
+  ]
+}

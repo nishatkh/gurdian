@@ -1,0 +1,106 @@
+[
+  {
+    "id": "en_01",
+    "language": "en",
+    "category": "standard_english",
+    "text": "My Samsung Galaxy A54 black color was stolen near Farmgate Bus Stand in Dhaka at 5:30 PM on 14 November 2026. IMEI is 356938035643809.",
+    "expected": {
+      "intent": "report_theft",
+      "device_brand": "Samsung",
+      "location_mention": "Farmgate Bus Stand",
+      "imei_present": true,
+      "time_mention": true
+    }
+  },
+  {
+    "id": "bn_01",
+    "language": "bn",
+    "category": "standard_bangla",
+    "text": "গতকাল সন্ধ্যা ৭টার দিকে মিরপুর ১০ গোলচত্বর এলাকায় আমার শাওমি রেডমি নোট ১৩ ফোনটি ছিনতাই হয়েছে।",
+    "expected": {
+      "intent": "report_theft",
+      "device_brand": "Xiaomi",
+      "location_mention": "মিরপুর ১০",
+      "imei_present": false,
+      "time_mention": true
+    }
+  },
+  {
+    "id": "bn_02",
+    "language": "bn",
+    "category": "standard_bangla",
+    "text": "আজ সকাল ৯:৩০ মিনিটে ধানমন্ডি ২৭ নম্বর রোডে রিকশায় আমার ফোন হারিয়ে গেছে, আমি এখন কী করব?",
+    "expected": {
+      "intent": "report_loss",
+      "device_brand": null,
+      "location_mention": "ধানমন্ডি ২৭",
+      "imei_present": false,
+      "time_mention": true
+    }
+  },
+  {
+    "id": "banglish_01",
+    "language": "mixed",
+    "category": "banglish",
+    "text": "Ajke bikale Uttara Sector 7 e amar iPhone 14 Pro churi hoye geche. SIM block korbo kivabe?",
+    "expected": {
+      "intent": "sim_block_help",
+      "device_brand": "Apple",
+      "location_mention": "Uttara Sector 7",
+      "imei_present": false,
+      "time_mention": true
+    }
+  },
+  {
+    "id": "en_02",
+    "language": "en",
+    "category": "short_query",
+    "text": "How do I file an Online GD for my lost Vivo V29?",
+    "expected": {
+      "intent": "gd_guidance",
+      "device_brand": "Vivo",
+      "location_mention": null,
+      "imei_present": false,
+      "time_mention": false
+    }
+  },
+  {
+    "id": "banglish_02",
+    "language": "mixed",
+    "category": "spelling_variation",
+    "text": "amar bkash r nagad account lock kora lagbe, phone harai gese Gulshan 1 er kache",
+    "expected": {
+      "intent": "account_protection",
+      "device_brand": null,
+      "location_mention": "Gulshan 1",
+      "imei_present": false,
+      "time_mention": false
+    }
+  },
+  {
+    "id": "ambig_01",
+    "language": "en",
+    "category": "ambiguous",
+    "text": "I cannot find my phone since afternoon, maybe left it in a CNG or someone took it.",
+    "expected": {
+      "intent": "report_loss",
+      "device_brand": null,
+      "location_mention": null,
+      "imei_present": false,
+      "time_mention": true
+    }
+  },
+  {
+    "id": "bn_03",
+    "language": "bn",
+    "category": "long_description",
+    "text": "১৬ নভেম্বর ২০২৬ দুপুর ২:১৫ টায় মতিঝিল শাপলা চত্বরের পাশে বাস থেকে নামার সময় পকেট থেকে আমার Realme C55 নীল রঙের ফোনটি চুরি হয়ে যায়। ফোনের আইএমইআই 864201051234567 এবং ভেতরে গ্রামীণফোন সিম ছিল।",
+    "expected": {
+      "intent": "report_theft",
+      "device_brand": "Realme",
+      "location_mention": "মতিঝিল",
+      "imei_present": true,
+      "time_mention": true
+    }
+  }
+]

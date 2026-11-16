@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Guardian AI</string>
+    <string name="tagline">Mobile Theft Response &amp; Digital Protection</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_incidents">Incidents</string>
+    <string name="nav_emergency">Emergency</string>
+    <string name="nav_activity">Activity</string>
+    <string name="nav_profile">Profile</string>
+    <string name="emergency_disclaimer">Guardian AI is a response companion. It does not replace Bangladesh Police, Online GD, 999, BTRC/NEIR, or your bank/MFS provider.</string>
+    <string name="cd_shield_logo">Guardian AI Shield Logo</string>
+    <string name="cd_navigate_back">Navigate back</string>
+    <string name="cd_emergency_action">Activate Theft or Lost Phone Mode</string>
+    <string name="cd_sync_status">Synchronization status</string>
+</resources>

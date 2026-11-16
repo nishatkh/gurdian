@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Guardian Shield silhouette in vibrant lime (#B6FF55) inside 66dp safe zone -->
+    <path
+        android:fillColor="#B6FF55"
+        android:pathData="M54,23L29,33.5V52.5C29,69.2 39.7,84.4 54,89C68.3,84.4 79,69.2 79,52.5V33.5L54,23Z" />
+    <!-- Inner dark shield cutout -->
+    <path
+        android:fillColor="#0E1408"
+        android:pathData="M54,29.5L35,37.5V52.2C35,65.5 43.2,77.6 54,81.6C64.8,77.6 73,65.5 73,52.2V37.5L54,29.5Z" />
+    <!-- Protective radar core + check pulse -->
+    <path
+        android:fillColor="#B6FF55"
+        android:pathData="M54,42A12,12 0 1,0 54,66A12,12 0 1,0 54,42ZM51.8,59.4L46.4,54L48.6,51.8L51.8,55L59.4,47.4L61.6,49.6L51.8,59.4Z" />
+</vector>

@@ -1,0 +1,6 @@
+{
+  "name": "Guardian AI",
+  "description": "AI-powered mobile theft response, digital account protection, and offline-first incident management platform for Bangladesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

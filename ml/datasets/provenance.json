@@ -1,0 +1,50 @@
+{
+  "critical_limitation_notice": "No public, ethically cleared dataset containing labelled Bangladeshi mobile-phone theft events currently exists. Therefore, Guardian AI does NOT train a phone-theft predictor or claim theft-prediction accuracy. All sensor models are strictly scoped to Device Activity/Context Classification (Task A) and Motion Anomaly Context Detection (Task B) as supplementary user-confirmed signals.",
+  "candidates_evaluated": [
+    {
+      "name": "UCI Human Activity Recognition Using Smartphones (HAR)",
+      "publisher": "University of California Irvine Machine Learning Repository (Anguita et al.)",
+      "download_url": "https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip",
+      "licence": "CC BY 4.0 / Academic Open Access (UCI ML Repository)",
+      "dataset_size_mb": 58.1,
+      "num_records": 10299,
+      "num_subjects": 30,
+      "features": "561 time- and frequency-domain features from embedded smartphone accelerometer and gyroscope (50Hz sampling, 2.56s sliding window).",
+      "target_labels": ["1 WALKING", "2 WALKING_UPSTAIRS", "3 WALKING_DOWNSTAIRS", "4 SITTING", "5 STANDING", "6 LAYING"],
+      "collection_method": "30 volunteers (ages 19-48) wearing waist-mounted Samsung Galaxy S II performing 6 activities.",
+      "limitations": "Controlled lab protocol, single device model, waist-mounted orientation, contains NO theft or snatching labels.",
+      "relevance_to_guardian_ai": "Selected for Task A (device activity/context classification) and Task B (unusual dynamic motion vs stationary baseline detection) with strict participant-aware splitting.",
+      "status": "downloaded_and_trained"
+    },
+    {
+      "name": "WISDM Smartphone and Smartwatch Activity and Biometrics Dataset",
+      "publisher": "Fordham University / UCI ML Repository",
+      "download_url": "https://archive.ics.uci.edu/dataset/507/wisdm+smartphone+and+smartwatch+activity+and+biometrics+dataset",
+      "licence": "CC BY 4.0",
+      "dataset_size_mb": 310.0,
+      "num_records": 15630426,
+      "num_subjects": 51,
+      "features": "Raw 20Hz tri-axial accelerometer and gyroscope streams across 18 daily activities.",
+      "target_labels": ["18 daily living activities (walking, jogging, stairs, sitting, standing, typing, etc.)"],
+      "collection_method": "51 subjects performing 18 activities for 3 minutes each.",
+      "limitations": "Raw time-series requires heavy windowing; no theft or snatching labels.",
+      "relevance_to_guardian_ai": "Evaluated as secondary candidate for future raw-stream windowing research.",
+      "status": "documented_not_selected_primary"
+    },
+    {
+      "name": "ExtraSensory Dataset",
+      "publisher": "UC San Diego (Vaizman et al.)",
+      "download_url": "http://extrasensory.ucsd.edu/",
+      "licence": "Academic Research Use",
+      "dataset_size_mb": 1400.0,
+      "num_records": 300000,
+      "num_subjects": 60,
+      "features": "In-the-wild smartphone sensor measurements + self-reported context labels.",
+      "target_labels": ["In-the-wild context tags (phone in pocket, walking, on table, etc.)"],
+      "collection_method": "60 users in naturalistic daily environments.",
+      "limitations": "Large size, missing sensor modalities per sample, self-reported label noise, no theft labels.",
+      "relevance_to_guardian_ai": "Useful context reference for pocket vs table placement, but lacks theft labels.",
+      "status": "documented_not_selected_primary"
+    }
+  ]
+}

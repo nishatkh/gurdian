@@ -1,0 +1,26 @@
+{
+  "random_seed": 42,
+  "dataset_name": "UCI Human Activity Recognition Using Smartphones",
+  "dataset_url": "https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip",
+  "raw_dir": "ml/raw/uci_har",
+  "processed_dir": "ml/processed",
+  "models_dir": "ml/models",
+  "reports_dir": "ml/reports",
+  "model_version": "guardian-har-v1.0.0",
+  "task_a_models": [
+    "logistic_regression",
+    "decision_tree",
+    "random_forest",
+    "linear_svc",
+    "hist_gradient_boosting"
+  ],
+  "task_b_models": [
+    "isolation_forest",
+    "local_outlier_factor",
+    "one_class_svm",
+    "zscore_baseline"
+  ],
+  "normal_baseline_classes": [4, 5, 6],
+  "dynamic_motion_out_of_baseline_classes": [1, 2, 3],
+  "top_k_features_for_mobile_xai": 20
+}
