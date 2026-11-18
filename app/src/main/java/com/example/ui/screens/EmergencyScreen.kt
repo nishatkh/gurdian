@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,11 +27,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.GppMaybe
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.OpenInNew
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.Call
+import androidx.compose.material.icons.outlined.GppMaybe
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,18 +58,27 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.example.domain.BilingualStrings
-import com.example.ui.theme.AmberWarning
-import com.example.ui.theme.CharcoalSurface
-import com.example.ui.theme.CrimsonAlert
+import com.example.ui.theme.ButterYellow
+import com.example.ui.theme.ButterYellowSoft
+import com.example.ui.theme.CreamFieldSurface
 import com.example.ui.theme.GuardianCard
-import com.example.ui.theme.LimeAccent
-import com.example.ui.theme.LimeGradientCard
-import com.example.ui.theme.ObsidianBlack
+import com.example.ui.theme.OnCharcoal
+import com.example.ui.theme.OrganicEditorialCard
+import com.example.ui.theme.PastelPink
+import com.example.ui.theme.PastelPinkSoft
+import com.example.ui.theme.PowderBlue
+import com.example.ui.theme.SageGreen
+import com.example.ui.theme.SageGreenSoft
+import com.example.ui.theme.SoftCharcoal
+import com.example.ui.theme.SoftCreamSurface
+import com.example.ui.theme.SoftOutline
 import com.example.ui.theme.StatusPill
-import com.example.ui.theme.SubtleBorder
 import com.example.ui.theme.TextMuted
 import com.example.ui.theme.TextPrimary
 import com.example.ui.theme.TextSecondary
+import com.example.ui.theme.WarmCoral
+import com.example.ui.theme.WarmCoralSoft
+import com.example.ui.theme.WarmIvory
 import com.example.ui.viewmodel.GuardianMainUiState
 import com.example.ui.viewmodel.GuardianViewModel
 
@@ -131,10 +141,10 @@ fun EmergencyScreen(
     )
 
     val fieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = LimeAccent,
-        unfocusedBorderColor = SubtleBorder,
-        focusedContainerColor = CharcoalSurface,
-        unfocusedContainerColor = CharcoalSurface,
+        focusedBorderColor = SoftCharcoal,
+        unfocusedBorderColor = SoftOutline,
+        focusedContainerColor = SoftCreamSurface,
+        unfocusedContainerColor = CreamFieldSurface,
         focusedTextColor = TextPrimary,
         unfocusedTextColor = TextPrimary,
     )
@@ -142,41 +152,51 @@ fun EmergencyScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack)
+            .background(WarmIvory)
             .testTag("emergency_list"),
-        contentPadding = PaddingValues(18.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 116.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         item {
-            LimeGradientCard {
+            OrganicEditorialCard(
+                containerColor = PastelPinkSoft,
+                blobColor = PastelPink,
+                accentShapeColor = ButterYellow,
+                dottedBorder = true,
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    StatusPill(text = if (bn) "জরুরি সহায়তা" else "EMERGENCY RESPONSE", color = CrimsonAlert)
-                    Icon(Icons.Filled.GppMaybe, contentDescription = null, tint = LimeAccent)
+                    StatusPill(
+                        text = if (bn) "জরুরি সহায়তা" else "EMERGENCY RESPONSE",
+                        color = WarmCoral,
+                        backgroundColor = WarmCoralSoft,
+                    )
+                    Icon(Icons.Outlined.GppMaybe, contentDescription = null, tint = SoftCharcoal)
                 }
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
                 Text(
                     text = BilingualStrings.emergencyTitle(bn),
                     style = MaterialTheme.typography.headlineMedium,
                     color = TextPrimary,
                 )
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(6.dp))
                 Text(
                     text = BilingualStrings.disclaimer(bn),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary,
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(16.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Button(
                         onClick = { showCall999Confirm = true },
-                        modifier = Modifier.weight(1f).testTag("dial_999_button"),
-                        colors = ButtonDefaults.buttonColors(containerColor = CrimsonAlert),
+                        modifier = Modifier.weight(1f).height(48.dp).testTag("dial_999_button"),
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                     ) {
-                        Icon(Icons.Filled.Call, contentDescription = null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Outlined.Call, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
                         Text(if (bn) "৯৯৯ কল" else "Call 999")
                     }
@@ -184,11 +204,14 @@ fun EmergencyScreen(
                         onClick = {
                             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://gd.police.gov.bd/")))
                         },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).height(48.dp),
+                        shape = RoundedCornerShape(50),
+                        border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.3f)),
+                        colors = ButtonDefaults.outlinedButtonColors(containerColor = SoftCreamSurface),
                     ) {
-                        Icon(Icons.Filled.OpenInNew, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(16.dp))
+                        Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Online GD", color = LimeAccent)
+                        Text("Online GD", color = SoftCharcoal)
                     }
                 }
             }
@@ -196,106 +219,127 @@ fun EmergencyScreen(
 
         // Incident Logging Form
         item {
-            GuardianCard(highlighted = true) {
+            GuardianCard(highlighted = true, containerColor = SoftCreamSurface) {
                 Text(
                     text = if (bn) "১. ঘটনার ধরন ও তথ্য সংরক্ষণ" else "1. Log Incident Offline-First",
                     style = MaterialTheme.typography.titleMedium,
                     color = TextPrimary,
                 )
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
 
                 val categories = listOf("suspected_theft", "lost_phone", "snatching", "sim_compromise")
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(categories) { cat ->
+                        val isSel = selectedCategory == cat
                         FilterChip(
-                            selected = selectedCategory == cat,
+                            selected = isSel,
                             onClick = { selectedCategory = cat },
                             label = { Text(BilingualStrings.categoryLabel(cat, bn)) },
+                            shape = RoundedCornerShape(50),
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = LimeAccent,
-                                selectedLabelColor = ObsidianBlack,
+                                selectedContainerColor = SoftCharcoal,
+                                selectedLabelColor = OnCharcoal,
+                                containerColor = CreamFieldSurface,
+                                labelColor = TextSecondary,
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                enabled = true,
+                                selected = isSel,
+                                borderColor = SoftOutline,
+                                selectedBorderColor = SoftCharcoal,
                             ),
                         )
                     }
                 }
 
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text(if (bn) "শিরোনাম (যেমন: ফার্মগেটে ফোন চুরি)" else "Short Title (e.g. Phone stolen near Farmgate)") },
+                    label = { Text(if (bn) "শিরোনাম (যেমন: ফার্মগেটে ফোন চুরি)" else "Short Title (e.g. Phone stolen near Farmgate)", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth().testTag("emergency_title_input"),
+                    shape = RoundedCornerShape(20.dp),
                     colors = fieldColors,
                     singleLine = true,
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text(if (bn) "ঘটনার বিবরণ (বাংলা বা English)" else "Describe what happened (English or Bangla)") },
+                    label = { Text(if (bn) "ঘটনার বিবরণ (বাংলা বা English)" else "Describe what happened (English or Bangla)", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth().testTag("emergency_desc_input"),
+                    shape = RoundedCornerShape(20.dp),
                     minLines = 3,
                     colors = fieldColors,
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
                         value = brand,
                         onValueChange = { brand = it },
-                        label = { Text("Brand") },
+                        label = { Text("Brand", color = TextMuted) },
                         modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(20.dp),
                         colors = fieldColors,
                         singleLine = true,
                     )
                     OutlinedTextField(
                         value = model,
                         onValueChange = { model = it },
-                        label = { Text("Model") },
+                        label = { Text("Model", color = TextMuted) },
                         modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(20.dp),
                         colors = fieldColors,
                         singleLine = true,
                     )
                 }
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 OutlinedTextField(
                     value = rawImei,
                     onValueChange = { rawImei = it },
-                    label = { Text("15-digit IMEI (Encrypted in Keystore)") },
+                    label = { Text("15-digit IMEI (Encrypted in Keystore)", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
                     colors = fieldColors,
                     singleLine = true,
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 OutlinedTextField(
                     value = locationLabel,
                     onValueChange = { locationLabel = it },
-                    label = { Text(if (bn) "সম্ভাব্য স্থান / থানা এলাকা" else "Area / Thana / Landmark") },
+                    label = { Text(if (bn) "সম্ভাব্য স্থান / থানা এলাকা" else "Area / Thana / Landmark", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
                     colors = fieldColors,
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(12.dp))
                 OutlinedButton(
                     onClick = {
                         val hasFine = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                         if (hasFine) tryReadLastLocation() else locationLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    shape = RoundedCornerShape(50),
+                    border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.25f)),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = if (locationConsent) SageGreenSoft else ButterYellowSoft,
+                    ),
                 ) {
-                    Icon(Icons.Filled.LocationOn, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Outlined.LocationOn, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(16.dp))
                     Spacer(Modifier.width(6.dp))
                     Text(
                         text = if (locationConsent) (if (bn) "লোকেশন যুক্ত হয়েছে" else "Consent Location Attached")
                         else (if (bn) "সম্মতিসহ বর্তমান অবস্থান যোগ করুন" else "Capture Location (Consent Required)"),
-                        color = LimeAccent,
+                        color = SoftCharcoal,
                     )
                 }
 
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(14.dp))
                 Button(
                     onClick = { showActivateConfirm = true },
-                    modifier = Modifier.fillMaxWidth().height(52.dp).testTag("activate_theft_mode_button"),
-                    shape = RoundedCornerShape(14.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                    modifier = Modifier.fillMaxWidth().height(54.dp).testTag("activate_theft_mode_button"),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                 ) {
                     Text(
                         text = if (bn) "ঘটনা সংরক্ষণ ও ইমার্জেন্সি মোড শুরু করুন" else "Save Incident & Start Response",
@@ -307,13 +351,17 @@ fun EmergencyScreen(
 
         // Quick Checklist & Consent-Based Contact Alert
         item {
-            GuardianCard {
+            OrganicEditorialCard(
+                containerColor = SageGreenSoft,
+                blobColor = SageGreen,
+                accentShapeColor = PowderBlue,
+            ) {
                 Text(
                     text = if (bn) "২. দ্রুত সুরক্ষা ও বিশ্বস্ত পরিচিতি" else "2. Immediate Checklist & Trusted Sharing",
                     style = MaterialTheme.typography.titleMedium,
                     color = TextPrimary,
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 state.checklist.take(4).forEach { item ->
                     Row(
                         modifier = Modifier
@@ -325,7 +373,11 @@ fun EmergencyScreen(
                         Checkbox(
                             checked = item.isCompleted,
                             onCheckedChange = { viewModel.toggleChecklist(item) },
-                            colors = CheckboxDefaults.colors(checkedColor = LimeAccent, checkmarkColor = ObsidianBlack),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = SoftCharcoal,
+                                checkmarkColor = OnCharcoal,
+                                uncheckedColor = TextSecondary,
+                            ),
                         )
                         Text(
                             text = if (bn) item.titleBn else item.titleEn,
@@ -334,14 +386,17 @@ fun EmergencyScreen(
                         )
                     }
                 }
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
                 OutlinedButton(
                     onClick = { showShareContactDialog = true },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    shape = RoundedCornerShape(50),
+                    border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.25f)),
+                    colors = ButtonDefaults.outlinedButtonColors(containerColor = SoftCreamSurface),
                 ) {
-                    Icon(Icons.Filled.Share, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Outlined.Share, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(16.dp))
                     Spacer(Modifier.width(6.dp))
-                    Text(if (bn) "বিশ্বস্ত পরিচিতিকে সতর্কতা পাঠান" else "Alert Trusted Contact (With Consent)", color = LimeAccent)
+                    Text(if (bn) "বিশ্বস্ত পরিচিতিকে সতর্কতা পাঠান" else "Alert Trusted Contact (With Consent)", color = SoftCharcoal)
                 }
             }
         }
@@ -350,7 +405,8 @@ fun EmergencyScreen(
     if (showActivateConfirm) {
         AlertDialog(
             onDismissRequest = { showActivateConfirm = false },
-            containerColor = CharcoalSurface,
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
             title = { Text(if (bn) "ঘটনা নিশ্চিত করুন" else "Confirm Emergency Incident", color = TextPrimary) },
             text = {
                 Text(
@@ -379,7 +435,8 @@ fun EmergencyScreen(
                             onCreated = onIncidentCreated,
                         )
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                 ) { Text("Confirm & Save") }
             },
             dismissButton = {
@@ -391,7 +448,8 @@ fun EmergencyScreen(
     if (showCall999Confirm) {
         AlertDialog(
             onDismissRequest = { showCall999Confirm = false },
-            containerColor = CharcoalSurface,
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
             title = { Text("Open Dialer for 999?", color = TextPrimary) },
             text = { Text("This opens your phone dialer with 999 (Bangladesh National Emergency Service). You decide when to place the call.", color = TextSecondary) },
             confirmButton = {
@@ -400,7 +458,8 @@ fun EmergencyScreen(
                         showCall999Confirm = false
                         context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:999")))
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = CrimsonAlert),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = WarmCoral, contentColor = OnCharcoal),
                 ) { Text("Open Dialer") }
             },
             dismissButton = {
@@ -414,7 +473,8 @@ fun EmergencyScreen(
         var includeLoc by remember { mutableStateOf(false) }
         AlertDialog(
             onDismissRequest = { showShareContactDialog = false },
-            containerColor = CharcoalSurface,
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
             title = { Text("Consent-Gated Contact Sharing", color = TextPrimary) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -424,7 +484,11 @@ fun EmergencyScreen(
                         Text("Log an incident first before sharing incident details.", color = TextSecondary)
                     } else {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Checkbox(checked = includeLoc, onCheckedChange = { includeLoc = it })
+                            Checkbox(
+                                checked = includeLoc,
+                                onCheckedChange = { includeLoc = it },
+                                colors = CheckboxDefaults.colors(checkedColor = SoftCharcoal, checkmarkColor = OnCharcoal),
+                            )
                             Text("Include recorded area label (explicit consent)", style = MaterialTheme.typography.bodyMedium, color = TextPrimary)
                         }
                         state.contacts.forEach { contact ->
@@ -442,7 +506,8 @@ fun EmergencyScreen(
                                     showShareContactDialog = false
                                 },
                                 modifier = Modifier.fillMaxWidth(),
-                                colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                                shape = RoundedCornerShape(50),
+                                colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                             ) {
                                 Text("Share with ${contact.name} (${contact.phoneMasked})")
                             }

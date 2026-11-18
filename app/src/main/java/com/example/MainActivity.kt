@@ -4,32 +4,38 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GppMaybe
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.outlined.GppMaybe
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
@@ -37,7 +43,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,9 +53,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -68,15 +84,13 @@ import com.example.ui.screens.OnboardingScreen
 import com.example.ui.screens.ProfileScreen
 import com.example.ui.screens.ResourcesDirectoryScreen
 import com.example.ui.screens.TrustedContactsScreen
-import com.example.ui.theme.CardSurface
-import com.example.ui.theme.CharcoalSurface
-import com.example.ui.theme.CrimsonAlert
-import com.example.ui.theme.DeepOlive
+import com.example.ui.theme.ButterYellow
 import com.example.ui.theme.GuardianAITheme
-import com.example.ui.theme.LimeAccent
-import com.example.ui.theme.ObsidianBlack
-import com.example.ui.theme.TextPrimary
-import com.example.ui.theme.TextSecondary
+import com.example.ui.theme.OnCharcoal
+import com.example.ui.theme.PastelPink
+import com.example.ui.theme.SoftCharcoal
+import com.example.ui.theme.SoftShadow
+import com.example.ui.theme.WarmIvory
 import com.example.ui.viewmodel.GuardianViewModel
 
 object GuardianRoutes {
@@ -98,8 +112,7 @@ private data class NavTabItem(
     val route: String,
     val labelEn: String,
     val labelBn: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val icon: ImageVector,
     val isEmergency: Boolean = false,
 )
 
@@ -159,11 +172,11 @@ fun GuardianAppRoot(
 
     val tabs = remember {
         listOf(
-            NavTabItem(GuardianRoutes.HOME, "Home", "হোম", Icons.Filled.Home, Icons.Outlined.Home),
-            NavTabItem(GuardianRoutes.INCIDENTS, "Incidents", "ঘটনা", Icons.Filled.Report, Icons.Outlined.Report),
-            NavTabItem(GuardianRoutes.EMERGENCY, "Emergency", "জরুরি", Icons.Filled.GppMaybe, Icons.Outlined.GppMaybe, isEmergency = true),
-            NavTabItem(GuardianRoutes.ACTIVITY, "Activity", "কার্যক্রম", Icons.Filled.History, Icons.Outlined.History),
-            NavTabItem(GuardianRoutes.PROFILE, "Profile", "প্রোফাইল", Icons.Filled.Person, Icons.Outlined.Person),
+            NavTabItem(GuardianRoutes.HOME, "Home", "হোম", Icons.Outlined.Home),
+            NavTabItem(GuardianRoutes.INCIDENTS, "Incidents", "ঘটনা", Icons.Outlined.Report),
+            NavTabItem(GuardianRoutes.EMERGENCY, "Emergency", "জরুরি", Icons.Outlined.GppMaybe, isEmergency = true),
+            NavTabItem(GuardianRoutes.ACTIVITY, "Activity", "কার্যক্রম", Icons.Outlined.History),
+            NavTabItem(GuardianRoutes.PROFILE, "Profile", "প্রোফাইল", Icons.Outlined.Person),
         )
     }
     val topRoutes = remember { tabs.map { it.route }.toSet() }
@@ -180,209 +193,337 @@ fun GuardianAppRoot(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack),
+            .background(WarmIvory),
     ) {
         val useRail = maxWidth >= 720.dp
 
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            containerColor = ObsidianBlack,
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState) { data ->
-                    Snackbar(
-                        snackbarData = data,
-                        containerColor = CardSurface,
-                        contentColor = LimeAccent,
-                    )
-                }
-            },
-            bottomBar = {
-                if (showTopChrome && !useRail) {
-                    NavigationBar(
-                        containerColor = CharcoalSurface,
-                        contentColor = TextPrimary,
-                    ) {
-                        tabs.forEach { tab ->
-                            val selected = currentRoute == tab.route
-                            NavigationBarItem(
-                                selected = selected,
-                                onClick = { navigateTop(tab.route) },
-                                modifier = Modifier.testTag("nav_${tab.route}"),
-                                icon = {
-                                    if (tab.isEmergency) {
-                                        Box(
-                                            modifier = Modifier
-                                                .clip(RoundedCornerShape(14.dp))
-                                                .background(if (selected) LimeAccent else CrimsonAlert.copy(alpha = 0.22f))
-                                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                                        ) {
-                                            Icon(
-                                                imageVector = if (selected) tab.selectedIcon else tab.unselectedIcon,
-                                                contentDescription = tab.labelEn,
-                                                tint = if (selected) ObsidianBlack else CrimsonAlert,
-                                                modifier = Modifier.size(22.dp),
-                                            )
-                                        }
-                                    } else {
-                                        Icon(
-                                            imageVector = if (selected) tab.selectedIcon else tab.unselectedIcon,
-                                            contentDescription = tab.labelEn,
-                                        )
-                                    }
-                                },
-                                label = {
-                                    Text(
-                                        text = if (bn) tab.labelBn else tab.labelEn,
-                                        style = MaterialTheme.typography.labelSmall,
-                                    )
-                                },
-                                colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = LimeAccent,
-                                    selectedTextColor = LimeAccent,
-                                    indicatorColor = DeepOlive,
-                                    unselectedIconColor = TextSecondary,
-                                    unselectedTextColor = TextSecondary,
-                                ),
-                            )
-                        }
-                    }
-                }
-            },
-        ) { innerPadding ->
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-            ) {
-                if (showTopChrome && useRail) {
-                    NavigationRail(
-                        containerColor = CharcoalSurface,
-                        contentColor = TextPrimary,
-                        modifier = Modifier.fillMaxHeight(),
-                    ) {
-                        tabs.forEach { tab ->
-                            val selected = currentRoute == tab.route
-                            NavigationRailItem(
-                                selected = selected,
-                                onClick = { navigateTop(tab.route) },
-                                modifier = Modifier.testTag("nav_${tab.route}"),
-                                icon = {
-                                    Icon(
-                                        imageVector = if (selected) tab.selectedIcon else tab.unselectedIcon,
-                                        contentDescription = tab.labelEn,
-                                        tint = when {
-                                            tab.isEmergency && !selected -> CrimsonAlert
-                                            selected -> LimeAccent
-                                            else -> TextSecondary
-                                        },
-                                    )
-                                },
-                                label = { Text(if (bn) tab.labelBn else tab.labelEn) },
-                                colors = NavigationRailItemDefaults.colors(
-                                    selectedIconColor = LimeAccent,
-                                    selectedTextColor = LimeAccent,
-                                    indicatorColor = DeepOlive,
-                                ),
-                            )
-                        }
-                    }
-                }
-
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.TopCenter,
-                ) {
-                    Box(modifier = Modifier.widthIn(max = 760.dp).fillMaxSize()) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = GuardianRoutes.HOME,
+        Box(modifier = Modifier.fillMaxSize()) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                containerColor = WarmIvory,
+                snackbarHost = {
+                    SnackbarHost(
+                        hostState = snackbarHostState,
+                        modifier = Modifier.padding(bottom = if (showTopChrome && !useRail) 96.dp else 0.dp),
+                    ) { data ->
+                        Surface(
+                            modifier = Modifier.padding(horizontal = 18.dp),
+                            shape = RoundedCornerShape(24.dp),
+                            color = SoftCharcoal,
                         ) {
-                            composable(GuardianRoutes.HOME) {
-                                HomeScreen(
-                                    state = state,
-                                    onOpenEmergency = { navigateTop(GuardianRoutes.EMERGENCY) },
-                                    onOpenIncident = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
-                                    onOpenChecklist = { navController.navigate(GuardianRoutes.CHECKLIST) },
-                                    onOpenContacts = { navController.navigate(GuardianRoutes.CONTACTS) },
-                                    onOpenResources = { navController.navigate(GuardianRoutes.RESOURCES) },
-                                    onOpenAssistant = { navController.navigate(GuardianRoutes.ASSISTANT) },
-                                    onSyncNow = { viewModel.triggerSyncNow() },
+                            Snackbar(
+                                snackbarData = data,
+                                containerColor = Color.Transparent,
+                                contentColor = OnCharcoal,
+                                actionColor = ButterYellow,
+                            )
+                        }
+                    }
+                },
+            ) { innerPadding ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                ) {
+                    if (showTopChrome && useRail) {
+                        NavigationRail(
+                            containerColor = SoftCharcoal,
+                            contentColor = OnCharcoal,
+                            modifier = Modifier.fillMaxHeight(),
+                        ) {
+                            tabs.forEach { tab ->
+                                val selected = currentRoute == tab.route
+                                NavigationRailItem(
+                                    selected = selected,
+                                    onClick = { navigateTop(tab.route) },
+                                    modifier = Modifier.testTag("nav_${tab.route}"),
+                                    icon = {
+                                        Icon(
+                                            imageVector = tab.icon,
+                                            contentDescription = tab.labelEn,
+                                            tint = when {
+                                                selected -> SoftCharcoal
+                                                tab.isEmergency -> PastelPink
+                                                else -> OnCharcoal.copy(alpha = 0.72f)
+                                            },
+                                        )
+                                    },
+                                    label = { Text(if (bn) tab.labelBn else tab.labelEn) },
+                                    colors = NavigationRailItemDefaults.colors(
+                                        selectedIconColor = SoftCharcoal,
+                                        selectedTextColor = ButterYellow,
+                                        indicatorColor = if (tab.isEmergency) PastelPink else ButterYellow,
+                                        unselectedIconColor = OnCharcoal.copy(alpha = 0.72f),
+                                        unselectedTextColor = OnCharcoal.copy(alpha = 0.72f),
+                                    ),
                                 )
                             }
-                            composable(GuardianRoutes.INCIDENTS) {
-                                IncidentsScreen(
-                                    state = state,
-                                    onCreateIncident = { navigateTop(GuardianRoutes.EMERGENCY) },
-                                    onSelectIncident = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
-                                )
-                            }
-                            composable(GuardianRoutes.EMERGENCY) {
-                                EmergencyScreen(
-                                    state = state,
-                                    viewModel = viewModel,
-                                    onIncidentCreated = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
-                                )
-                            }
-                            composable(GuardianRoutes.ACTIVITY) {
-                                ActivityScreen(
-                                    state = state,
-                                    onSyncNow = { viewModel.triggerSyncNow() },
-                                    onOpenAssistant = { navController.navigate(GuardianRoutes.ASSISTANT) },
-                                )
-                            }
-                            composable(GuardianRoutes.PROFILE) {
-                                ProfileScreen(
-                                    state = state,
-                                    viewModel = viewModel,
-                                    onOpenChecklist = { navController.navigate(GuardianRoutes.CHECKLIST) },
-                                    onOpenContacts = { navController.navigate(GuardianRoutes.CONTACTS) },
-                                    onOpenResources = { navController.navigate(GuardianRoutes.RESOURCES) },
-                                )
-                            }
-                            composable(
-                                route = GuardianRoutes.INCIDENT_DETAIL,
-                                arguments = listOf(navArgument("incidentId") { type = NavType.StringType }),
-                            ) { entry ->
-                                val id = entry.arguments?.getString("incidentId") ?: ""
-                                IncidentDetailScreen(
-                                    incidentId = id,
-                                    viewModel = viewModel,
-                                    bn = bn,
-                                    onBack = { navController.popBackStack() },
-                                )
-                            }
-                            composable(GuardianRoutes.ASSISTANT) {
-                                AssistantScreen(
-                                    state = state,
-                                    isBusy = isBusy,
-                                    viewModel = viewModel,
-                                    onBack = { navController.popBackStack() },
-                                )
-                            }
-                            composable(GuardianRoutes.CHECKLIST) {
-                                AccountProtectionScreen(
-                                    state = state,
-                                    viewModel = viewModel,
-                                    onBack = { navController.popBackStack() },
-                                )
-                            }
-                            composable(GuardianRoutes.CONTACTS) {
-                                TrustedContactsScreen(
-                                    state = state,
-                                    viewModel = viewModel,
-                                    onBack = { navController.popBackStack() },
-                                )
-                            }
-                            composable(GuardianRoutes.RESOURCES) {
-                                ResourcesDirectoryScreen(
-                                    state = state,
-                                    onBack = { navController.popBackStack() },
-                                )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.TopCenter,
+                    ) {
+                        Box(modifier = Modifier.widthIn(max = 760.dp).fillMaxSize()) {
+                            NavHost(
+                                navController = navController,
+                                startDestination = GuardianRoutes.HOME,
+                            ) {
+                                composable(GuardianRoutes.HOME) {
+                                    HomeScreen(
+                                        state = state,
+                                        onOpenEmergency = { navigateTop(GuardianRoutes.EMERGENCY) },
+                                        onOpenIncident = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
+                                        onOpenChecklist = { navController.navigate(GuardianRoutes.CHECKLIST) },
+                                        onOpenContacts = { navController.navigate(GuardianRoutes.CONTACTS) },
+                                        onOpenResources = { navController.navigate(GuardianRoutes.RESOURCES) },
+                                        onOpenAssistant = { navController.navigate(GuardianRoutes.ASSISTANT) },
+                                        onSyncNow = { viewModel.triggerSyncNow() },
+                                    )
+                                }
+                                composable(GuardianRoutes.INCIDENTS) {
+                                    IncidentsScreen(
+                                        state = state,
+                                        onCreateIncident = { navigateTop(GuardianRoutes.EMERGENCY) },
+                                        onSelectIncident = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
+                                    )
+                                }
+                                composable(GuardianRoutes.EMERGENCY) {
+                                    EmergencyScreen(
+                                        state = state,
+                                        viewModel = viewModel,
+                                        onIncidentCreated = { id -> navController.navigate(GuardianRoutes.incidentDetail(id)) },
+                                    )
+                                }
+                                composable(GuardianRoutes.ACTIVITY) {
+                                    ActivityScreen(
+                                        state = state,
+                                        onSyncNow = { viewModel.triggerSyncNow() },
+                                        onOpenAssistant = { navController.navigate(GuardianRoutes.ASSISTANT) },
+                                    )
+                                }
+                                composable(GuardianRoutes.PROFILE) {
+                                    ProfileScreen(
+                                        state = state,
+                                        viewModel = viewModel,
+                                        onOpenChecklist = { navController.navigate(GuardianRoutes.CHECKLIST) },
+                                        onOpenContacts = { navController.navigate(GuardianRoutes.CONTACTS) },
+                                        onOpenResources = { navController.navigate(GuardianRoutes.RESOURCES) },
+                                    )
+                                }
+                                composable(
+                                    route = GuardianRoutes.INCIDENT_DETAIL,
+                                    arguments = listOf(navArgument("incidentId") { type = NavType.StringType }),
+                                ) { entry ->
+                                    val id = entry.arguments?.getString("incidentId") ?: ""
+                                    IncidentDetailScreen(
+                                        incidentId = id,
+                                        viewModel = viewModel,
+                                        bn = bn,
+                                        onBack = { navController.popBackStack() },
+                                    )
+                                }
+                                composable(GuardianRoutes.ASSISTANT) {
+                                    AssistantScreen(
+                                        state = state,
+                                        isBusy = isBusy,
+                                        viewModel = viewModel,
+                                        onBack = { navController.popBackStack() },
+                                    )
+                                }
+                                composable(GuardianRoutes.CHECKLIST) {
+                                    AccountProtectionScreen(
+                                        state = state,
+                                        viewModel = viewModel,
+                                        onBack = { navController.popBackStack() },
+                                    )
+                                }
+                                composable(GuardianRoutes.CONTACTS) {
+                                    TrustedContactsScreen(
+                                        state = state,
+                                        viewModel = viewModel,
+                                        onBack = { navController.popBackStack() },
+                                    )
+                                }
+                                composable(GuardianRoutes.RESOURCES) {
+                                    ResourcesDirectoryScreen(
+                                        state = state,
+                                        onBack = { navController.popBackStack() },
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
+
+            if (showTopChrome && !useRail) {
+                WellnessFloatingCharcoalDock(
+                    tabs = tabs,
+                    currentRoute = currentRoute,
+                    bn = bn,
+                    onSelectTab = { navigateTop(it) },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .navigationBarsPadding()
+                        .padding(horizontal = 18.dp, vertical = 12.dp),
+                )
+            }
         }
+    }
+}
+
+/**
+ * Floating dark charcoal navigation bar with thin-line icons, evenly spaced items,
+ * and a prominent circular center Emergency FAB wrapped in a warm cream halo.
+ */
+@Composable
+private fun WellnessFloatingCharcoalDock(
+    tabs: List<NavTabItem>,
+    currentRoute: String,
+    bn: Boolean,
+    onSelectTab: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val leftTabs = tabs.take(2)
+    val centerTab = tabs[2]
+    val rightTabs = tabs.drop(3)
+    val dockShape = RoundedCornerShape(36.dp)
+
+    Box(
+        modifier = modifier
+            .widthIn(max = 520.dp)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(66.dp)
+                .shadow(elevation = 4.dp, shape = dockShape, ambientColor = SoftShadow, spotColor = SoftShadow),
+            shape = dockShape,
+            color = SoftCharcoal,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                leftTabs.forEach { tab ->
+                    WellnessNavBarItem(
+                        tab = tab,
+                        isSelected = currentRoute == tab.route,
+                        bn = bn,
+                        onClick = { onSelectTab(tab.route) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(72.dp))
+
+                rightTabs.forEach { tab ->
+                    WellnessNavBarItem(
+                        tab = tab,
+                        isSelected = currentRoute == tab.route,
+                        bn = bn,
+                        onClick = { onSelectTab(tab.route) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+        }
+
+        // Prominent circular Floating Action Button positioned in the center
+        val isEmergencySelected = currentRoute == centerTab.route
+        val centerScale by animateFloatAsState(
+            targetValue = if (isEmergencySelected) 1.07f else 1.0f,
+            animationSpec = spring(dampingRatio = 0.68f, stiffness = 420f),
+            label = "center_fab_scale",
+        )
+        val centerBg by animateColorAsState(
+            targetValue = if (isEmergencySelected) PastelPink else ButterYellow,
+            animationSpec = spring(),
+            label = "center_fab_bg",
+        )
+
+        Surface(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .offset(y = (-14).dp)
+                .size(64.dp)
+                .scale(centerScale)
+                .semantics { selected = isEmergencySelected }
+                .clip(CircleShape)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = ripple(bounded = true, color = SoftCharcoal),
+                    role = Role.Tab,
+                    onClick = { onSelectTab(centerTab.route) },
+                )
+                .testTag("nav_${centerTab.route}"),
+            shape = CircleShape,
+            color = centerBg,
+            border = BorderStroke(4.dp, WarmIvory),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = centerTab.icon,
+                    contentDescription = centerTab.labelEn,
+                    tint = SoftCharcoal,
+                    modifier = Modifier.size(26.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WellnessNavBarItem(
+    tab: NavTabItem,
+    isSelected: Boolean,
+    bn: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val tint by animateColorAsState(
+        targetValue = if (isSelected) ButterYellow else OnCharcoal.copy(alpha = 0.65f),
+        animationSpec = spring(),
+        label = "nav_item_tint_${tab.route}",
+    )
+    Column(
+        modifier = modifier
+            .height(54.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .semantics { selected = isSelected }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = ripple(bounded = true, color = ButterYellow),
+                role = Role.Tab,
+                onClick = onClick,
+            )
+            .testTag("nav_${tab.route}"),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            imageVector = tab.icon,
+            contentDescription = tab.labelEn,
+            tint = tint,
+            modifier = Modifier.size(21.dp),
+        )
+        Spacer(Modifier.height(3.dp))
+        Text(
+            text = if (bn) tab.labelBn else tab.labelEn,
+            fontSize = 10.sp,
+            lineHeight = 12.sp,
+            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+            color = tint,
+            maxLines = 1,
+            softWrap = false,
+        )
     }
 }

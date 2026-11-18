@@ -4,8 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,19 +21,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.Report
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Send
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AddAPhoto
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.outlined.Report
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -42,11 +43,11 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -64,21 +65,31 @@ import coil.compose.AsyncImage
 import com.example.data.local.IncidentEntity
 import com.example.domain.BilingualStrings
 import com.example.security.KeystoreCryptoManager
-import com.example.ui.theme.AmberWarning
-import com.example.ui.theme.CharcoalSurface
-import com.example.ui.theme.CrimsonAlert
-import com.example.ui.theme.ElevatedSurface
-import com.example.ui.theme.EmeraldSafe
+import com.example.ui.theme.ButterYellow
+import com.example.ui.theme.ButterYellowSoft
+import com.example.ui.theme.CreamFieldSurface
 import com.example.ui.theme.EmptyStateView
 import com.example.ui.theme.GuardianCard
-import com.example.ui.theme.LimeAccent
-import com.example.ui.theme.ObsidianBlack
+import com.example.ui.theme.OnCharcoal
+import com.example.ui.theme.OrganicEditorialCard
+import com.example.ui.theme.PastelPink
+import com.example.ui.theme.PastelPinkSoft
+import com.example.ui.theme.PowderBlue
+import com.example.ui.theme.PowderBlueSoft
+import com.example.ui.theme.SageGreen
+import com.example.ui.theme.SageGreenSoft
+import com.example.ui.theme.SoftCharcoal
+import com.example.ui.theme.SoftCircularProgressRing
+import com.example.ui.theme.SoftCreamSurface
+import com.example.ui.theme.SoftOutline
 import com.example.ui.theme.StatusPill
-import com.example.ui.theme.SubtleBorder
 import com.example.ui.theme.TextMuted
 import com.example.ui.theme.TextPrimary
 import com.example.ui.theme.TextSecondary
 import com.example.ui.theme.TimelineStepRow
+import com.example.ui.theme.WarmCoral
+import com.example.ui.theme.WarmCoralSoft
+import com.example.ui.theme.WarmIvory
 import com.example.ui.viewmodel.GuardianMainUiState
 import com.example.ui.viewmodel.GuardianViewModel
 import java.text.SimpleDateFormat
@@ -102,12 +113,12 @@ fun IncidentsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack),
+            .background(WarmIvory),
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(18.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 116.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
                 Text(
@@ -115,6 +126,7 @@ fun IncidentsScreen(
                     style = MaterialTheme.typography.headlineMedium,
                     color = TextPrimary,
                 )
+                Spacer(Modifier.height(2.dp))
                 Text(
                     text = if (bn) "অফলাইন ও অনলাইন ঘটনা, টাইমলাইন এবং GD খসড়া" else "Offline-first incident logs, timelines & GD drafts",
                     style = MaterialTheme.typography.bodyMedium,
@@ -126,15 +138,25 @@ fun IncidentsScreen(
                 val statuses = listOf("all", "active", "draft", "submitted_for_review", "closed", "cancelled")
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(statuses) { st ->
+                        val isSel = filterStatus == st
                         FilterChip(
-                            selected = filterStatus == st,
+                            selected = isSel,
                             onClick = { filterStatus = st },
                             label = {
                                 Text(if (st == "all") (if (bn) "সব" else "All") else BilingualStrings.statusLabel(st, bn))
                             },
+                            shape = RoundedCornerShape(50),
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = LimeAccent,
-                                selectedLabelColor = ObsidianBlack,
+                                selectedContainerColor = SoftCharcoal,
+                                selectedLabelColor = OnCharcoal,
+                                containerColor = SoftCreamSurface,
+                                labelColor = TextSecondary,
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                enabled = true,
+                                selected = isSel,
+                                borderColor = SoftOutline,
+                                selectedBorderColor = SoftCharcoal,
                             ),
                         )
                     }
@@ -144,16 +166,23 @@ fun IncidentsScreen(
             if (filtered.isEmpty()) {
                 item {
                     EmptyStateView(
-                        icon = Icons.Filled.Report,
+                        icon = Icons.Outlined.Report,
                         title = if (bn) "কোনো ঘটনা পাওয়া যায়নি" else "No Incidents Recorded",
                         description = if (bn) "নতুন ঘটনা যোগ করতে নিচের + বাটনে চাপুন।"
-                        else "Tap + below or activate Emergency Mode to record a lost or stolen phone incident.",
+                        else "Tap + below or open Emergency Mode to record a lost or stolen phone incident.",
                     )
                 }
             } else {
                 items(filtered, key = { it.id }) { inc ->
+                    val cardTint = when (inc.status) {
+                        "active" -> PastelPinkSoft
+                        "closed", "approved" -> SageGreenSoft
+                        "cancelled" -> SoftCreamSurface
+                        else -> PowderBlueSoft
+                    }
                     GuardianCard(
                         highlighted = inc.status == "active",
+                        containerColor = cardTint,
                         onClick = { onSelectIncident(inc.id) },
                         modifier = Modifier.testTag("incident_card_${inc.id}"),
                     ) {
@@ -164,19 +193,16 @@ fun IncidentsScreen(
                         ) {
                             StatusPill(
                                 text = BilingualStrings.statusLabel(inc.status, bn),
-                                color = when (inc.status) {
-                                    "active" -> CrimsonAlert
-                                    "closed", "approved" -> EmeraldSafe
-                                    "cancelled" -> TextMuted
-                                    else -> LimeAccent
-                                },
+                                color = if (inc.status == "active") WarmCoral else SoftCharcoal,
+                                backgroundColor = if (inc.status == "active") WarmCoralSoft else SoftCreamSurface,
                             )
                             StatusPill(
                                 text = if (inc.syncStatus == "synced") "Synced" else "Offline Saved",
-                                color = if (inc.syncStatus == "synced") EmeraldSafe else AmberWarning,
+                                color = SoftCharcoal,
+                                backgroundColor = if (inc.syncStatus == "synced") SageGreenSoft else ButterYellowSoft,
                             )
                         }
-                        Spacer(Modifier.height(10.dp))
+                        Spacer(Modifier.height(12.dp))
                         Text(inc.title, style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                         Spacer(Modifier.height(4.dp))
                         Text(
@@ -187,25 +213,26 @@ fun IncidentsScreen(
                         Spacer(Modifier.height(4.dp))
                         Text(
                             text = dateFmt.format(Date(inc.occurredAtMillis)),
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelSmall,
                             color = TextMuted,
                         )
                     }
                 }
             }
-            item { Spacer(Modifier.height(72.dp)) }
+            item { Spacer(Modifier.height(54.dp)) }
         }
 
         FloatingActionButton(
             onClick = onCreateIncident,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(20.dp)
+                .padding(end = 20.dp, bottom = 112.dp)
                 .testTag("new_incident_fab"),
-            containerColor = LimeAccent,
-            contentColor = ObsidianBlack,
+            shape = CircleShape,
+            containerColor = SoftCharcoal,
+            contentColor = ButterYellow,
         ) {
-            Icon(Icons.Filled.Add, contentDescription = "Create new incident")
+            Icon(Icons.Outlined.Add, contentDescription = "Create new incident")
         }
     }
 }
@@ -240,7 +267,7 @@ fun IncidentDetailScreen(
 
     val current: IncidentEntity? = incident
     if (current == null) {
-        Box(modifier = Modifier.fillMaxSize().background(ObsidianBlack), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxSize().background(WarmIvory), contentAlignment = Alignment.Center) {
             Text("Incident not found", color = TextSecondary)
         }
         return
@@ -251,10 +278,10 @@ fun IncidentDetailScreen(
     val timeFmt = SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault())
 
     val fieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = LimeAccent,
-        unfocusedBorderColor = SubtleBorder,
-        focusedContainerColor = CharcoalSurface,
-        unfocusedContainerColor = CharcoalSurface,
+        focusedBorderColor = SoftCharcoal,
+        unfocusedBorderColor = SoftOutline,
+        focusedContainerColor = SoftCreamSurface,
+        unfocusedContainerColor = CreamFieldSurface,
         focusedTextColor = TextPrimary,
         unfocusedTextColor = TextPrimary,
     )
@@ -262,26 +289,40 @@ fun IncidentDetailScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack),
-        contentPadding = PaddingValues(18.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .background(WarmIvory),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
         item {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                IconButton(onClick = onBack, modifier = Modifier.testTag("incident_detail_back")) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
+                Surface(
+                    shape = CircleShape,
+                    color = SoftCreamSurface,
+                    border = BorderStroke(1.dp, SoftOutline),
+                ) {
+                    IconButton(onClick = onBack, modifier = Modifier.testTag("incident_detail_back")) {
+                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = SoftCharcoal)
+                    }
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(current.title, style = MaterialTheme.typography.headlineSmall, color = TextPrimary)
-                    Text("ID: ${current.id.take(8).uppercase()}", style = MaterialTheme.typography.labelMedium, color = TextMuted)
+                    Text("ID: ${current.id.take(8).uppercase()}", style = MaterialTheme.typography.labelSmall, color = TextMuted)
                 }
-                StatusPill(text = BilingualStrings.statusLabel(current.status, bn))
+                StatusPill(
+                    text = BilingualStrings.statusLabel(current.status, bn),
+                    color = SoftCharcoal,
+                    backgroundColor = ButterYellowSoft,
+                )
             }
         }
 
         // Core Device & Masked IMEI Card
         item {
-            GuardianCard(highlighted = true) {
+            OrganicEditorialCard(
+                containerColor = PowderBlueSoft,
+                blobColor = PowderBlue,
+                accentShapeColor = ButterYellow,
+            ) {
                 Text(if (bn) "ডিভাইস ও ঘটনার তথ্য" else "Device & Incident Summary", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                 Spacer(Modifier.height(8.dp))
                 Text("${BilingualStrings.categoryLabel(current.category, bn)} • ${current.locationLabel.ifBlank { "Location not recorded" }}", style = MaterialTheme.typography.bodyMedium, color = TextSecondary)
@@ -291,29 +332,36 @@ fun IncidentDetailScreen(
                     Text(
                         text = if (revealImei && decryptedImei.isNotBlank()) "IMEI: $decryptedImei"
                         else "IMEI: ${KeystoreCryptoManager.maskImei(decryptedImei)}",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = LimeAccent,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = SoftCharcoal,
                     )
                     IconButton(onClick = { revealImei = !revealImei }) {
                         Icon(
-                            imageVector = if (revealImei) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            imageVector = if (revealImei) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                             contentDescription = "Toggle IMEI visibility",
-                            tint = TextSecondary,
+                            tint = SoftCharcoal,
                         )
                     }
                 }
                 Spacer(Modifier.height(6.dp))
                 Text(current.description.ifBlank { "No narrative added yet." }, style = MaterialTheme.typography.bodyLarge, color = TextPrimary)
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(14.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { showEditDialog = true }, modifier = Modifier.weight(1f)) {
-                        Text(if (bn) "তথ্য সম্পাদনা" else "Edit Details", color = LimeAccent)
+                    OutlinedButton(
+                        onClick = { showEditDialog = true },
+                        modifier = Modifier.weight(1f).height(46.dp),
+                        shape = RoundedCornerShape(50),
+                        border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.28f)),
+                        colors = ButtonDefaults.outlinedButtonColors(containerColor = SoftCreamSurface),
+                    ) {
+                        Text(if (bn) "তথ্য সম্পাদনা" else "Edit Details", color = SoftCharcoal)
                     }
                     if (current.status in setOf("draft", "active", "additional_info_requested")) {
                         Button(
                             onClick = { viewModel.transitionIncident(current.id, "submitted_for_review") },
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                            modifier = Modifier.weight(1f).height(46.dp),
+                            shape = RoundedCornerShape(50),
+                            colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                         ) {
                             Text(if (bn) "রিভিউতে পাঠান" else "Submit Review")
                         }
@@ -322,68 +370,87 @@ fun IncidentDetailScreen(
             }
         }
 
-        // Explainable AI Deterministic Rule Assessment
+        // Explainable AI Deterministic Rule Assessment with Circular Numerical Ring
         item {
-            GuardianCard {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Text(if (bn) "GD প্রস্তুতি ও XAI বিশ্লেষণ" else "GD Readiness & Explainable AI", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
-                    StatusPill(text = "${assessment.readinessScore}%", color = if (assessment.readinessScore >= 75) LimeAccent else AmberWarning)
+            OrganicEditorialCard(
+                containerColor = ButterYellowSoft,
+                blobColor = ButterYellow,
+                accentShapeColor = PastelPink,
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    SoftCircularProgressRing(
+                        progress = assessment.readinessScore / 100f,
+                        valueText = "${assessment.readinessScore}%",
+                        captionText = "GD Ready",
+                        size = 90.dp,
+                        progressColor = SoftCharcoal,
+                        trackColor = SoftCreamSurface,
+                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(if (bn) "GD প্রস্তুতি ও XAI বিশ্লেষণ" else "GD Readiness & XAI", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                        Spacer(Modifier.height(4.dp))
+                        Text(assessment.recommendedNextActionSummaryOrFallback(assessment.recommendation), style = MaterialTheme.typography.bodyMedium, color = TextSecondary)
+                    }
                 }
-                Spacer(Modifier.height(8.dp))
-                LinearProgressIndicator(
-                    progress = { assessment.readinessScore / 100f },
-                    modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(50)),
-                    color = LimeAccent,
-                    trackColor = ElevatedSurface,
-                )
-                Spacer(Modifier.height(10.dp))
-                Text(assessment.recommendedNextActionSummaryOrFallback(assessment.recommendation), style = MaterialTheme.typography.bodyMedium, color = LimeAccent)
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(14.dp))
                 assessment.ruleTrace.forEach { (rule, passed) ->
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 2.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 3.dp)) {
                         Icon(
-                            imageVector = if (passed) Icons.Filled.CheckCircle else Icons.Filled.Cancel,
+                            imageVector = if (passed) Icons.Outlined.CheckCircle else Icons.Outlined.Cancel,
                             contentDescription = null,
-                            tint = if (passed) EmeraldSafe else AmberWarning,
-                            modifier = Modifier.size(16.dp),
+                            tint = if (passed) SoftCharcoal else WarmCoral,
+                            modifier = Modifier.size(17.dp),
                         )
                         Text(rule, style = MaterialTheme.typography.bodyMedium, color = if (passed) TextPrimary else TextSecondary)
                     }
                 }
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(8.dp))
                 Text(assessment.uncertaintyNotice, style = MaterialTheme.typography.labelSmall, color = TextMuted)
             }
         }
 
         // Report Draft & PDF Export Card
         item {
-            GuardianCard(highlighted = true) {
+            OrganicEditorialCard(
+                containerColor = SageGreenSoft,
+                blobColor = SageGreen,
+                accentShapeColor = PowderBlue,
+                dottedBorder = true,
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Icon(Icons.Filled.Description, contentDescription = null, tint = LimeAccent)
+                    Icon(Icons.Outlined.Description, contentDescription = null, tint = SoftCharcoal)
                     Column(modifier = Modifier.weight(1f)) {
                         Text(if (bn) "পুলিশ GD খসড়া ও PDF" else "Police GD Draft & PDF Export", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
-                        Text(if (bn) "শুধুমাত্র খসড়া — অফিসিয়াল GD নয়" else "Marked clearly as DRAFT ONLY — verify before filing at gd.police.gov.bd", style = MaterialTheme.typography.labelSmall, color = AmberWarning)
+                        Text(if (bn) "শুধুমাত্র খসড়া — অফিসিয়াল GD নয়" else "Marked clearly as DRAFT ONLY — verify before filing at gd.police.gov.bd", style = MaterialTheme.typography.labelSmall, color = TextSecondary)
                     }
                 }
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(14.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Button(
                         onClick = {
                             viewModel.generateReportDraft(current)
                             showReportModal = true
                         },
-                        modifier = Modifier.weight(1f).testTag("generate_report_btn"),
-                        colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                        modifier = Modifier.weight(1f).height(48.dp).testTag("generate_report_btn"),
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                     ) {
                         Text(if (bn) "খসড়া দেখুন" else "Prepare Draft")
                     }
                     OutlinedButton(
                         onClick = { viewModel.exportAndSharePdf(current) },
-                        modifier = Modifier.weight(1f).testTag("export_pdf_btn"),
+                        modifier = Modifier.weight(1f).height(48.dp).testTag("export_pdf_btn"),
+                        shape = RoundedCornerShape(50),
+                        border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.28f)),
+                        colors = ButtonDefaults.outlinedButtonColors(containerColor = SoftCreamSurface),
                     ) {
-                        Icon(Icons.Filled.PictureAsPdf, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Outlined.PictureAsPdf, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("PDF", color = LimeAccent)
+                        Text("PDF", color = SoftCharcoal)
                     }
                 }
             }
@@ -391,27 +458,29 @@ fun IncidentDetailScreen(
 
         // Evidence via Zero-Permission Photo Picker
         item {
-            GuardianCard {
+            GuardianCard(containerColor = SoftCreamSurface) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                     Text(if (bn) "সংযুক্ত প্রমাণ (${evidence.size})" else "Attached Evidence (${evidence.size})", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                     OutlinedButton(
                         onClick = {
                             photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                         },
+                        shape = RoundedCornerShape(50),
+                        border = BorderStroke(1.dp, SoftCharcoal.copy(alpha = 0.25f)),
                     ) {
-                        Icon(Icons.Filled.AddAPhoto, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Outlined.AddAPhoto, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text(if (bn) "ছবি যোগ" else "Photo Picker", color = LimeAccent)
+                        Text(if (bn) "ছবি যোগ" else "Photo Picker", color = SoftCharcoal)
                     }
                 }
                 if (evidence.isNotEmpty()) {
-                    Spacer(Modifier.height(10.dp))
+                    Spacer(Modifier.height(12.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         items(evidence) { ev ->
                             AsyncImage(
                                 model = ev.uriString,
                                 contentDescription = ev.displayName,
-                                modifier = Modifier.size(84.dp).clip(RoundedCornerShape(12.dp)),
+                                modifier = Modifier.size(84.dp).clip(RoundedCornerShape(18.dp)),
                             )
                         }
                     }
@@ -421,24 +490,26 @@ fun IncidentDetailScreen(
 
         // Event Timeline + Add Observation
         item {
-            GuardianCard {
+            GuardianCard(containerColor = SoftCreamSurface) {
                 Text(if (bn) "ঘটনার টাইমলাইন" else "Event Timeline", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
                 events.forEachIndexed { idx, ev ->
                     TimelineStepRow(
                         title = ev.eventType.replace('_', ' ').replaceFirstChar { it.uppercase() },
                         subtitle = ev.note,
                         timestamp = timeFmt.format(Date(ev.eventTimestampMillis)),
                         isLast = idx == events.lastIndex,
+                        accentColor = if (idx == 0) ButterYellow else SageGreen,
                     )
                 }
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(12.dp))
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
                         value = newNote,
                         onValueChange = { newNote = it },
-                        placeholder = { Text(if (bn) "নতুন পর্যবেক্ষণ যোগ করুন..." else "Add timeline observation...") },
+                        placeholder = { Text(if (bn) "নতুন পর্যবেক্ষণ যোগ করুন..." else "Add timeline observation...", color = TextMuted) },
                         modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(24.dp),
                         colors = fieldColors,
                     )
                     IconButton(
@@ -448,9 +519,9 @@ fun IncidentDetailScreen(
                                 newNote = ""
                             }
                         },
-                        modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(LimeAccent),
+                        modifier = Modifier.size(50.dp).clip(CircleShape).background(SoftCharcoal),
                     ) {
-                        Icon(Icons.Filled.Send, contentDescription = "Add observation", tint = ObsidianBlack)
+                        Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = "Add observation", tint = OnCharcoal)
                     }
                 }
             }
@@ -462,7 +533,7 @@ fun IncidentDetailScreen(
                     onClick = { showCancelConfirm = true },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(if (bn) "ঘটনা বাতিল করুন" else "Cancel Incident", color = CrimsonAlert)
+                    Text(if (bn) "ঘটনা বাতিল করুন" else "Cancel Incident", color = WarmCoral)
                 }
             }
         }
@@ -476,15 +547,16 @@ fun IncidentDetailScreen(
         var imei by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { showEditDialog = false },
-            containerColor = CharcoalSurface,
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
             title = { Text("Update Incident Details", color = TextPrimary) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedTextField(value = brand, onValueChange = { brand = it }, label = { Text("Device Brand") }, colors = fieldColors)
-                    OutlinedTextField(value = model, onValueChange = { model = it }, label = { Text("Device Model") }, colors = fieldColors)
-                    OutlinedTextField(value = imei, onValueChange = { imei = it }, label = { Text("Update 15-digit IMEI (optional)") }, colors = fieldColors)
-                    OutlinedTextField(value = loc, onValueChange = { loc = it }, label = { Text("Location / Thana") }, colors = fieldColors)
-                    OutlinedTextField(value = desc, onValueChange = { desc = it }, label = { Text("Narrative") }, minLines = 3, colors = fieldColors)
+                    OutlinedTextField(value = brand, onValueChange = { brand = it }, label = { Text("Device Brand") }, shape = RoundedCornerShape(18.dp), colors = fieldColors)
+                    OutlinedTextField(value = model, onValueChange = { model = it }, label = { Text("Device Model") }, shape = RoundedCornerShape(18.dp), colors = fieldColors)
+                    OutlinedTextField(value = imei, onValueChange = { imei = it }, label = { Text("Update 15-digit IMEI (optional)") }, shape = RoundedCornerShape(18.dp), colors = fieldColors)
+                    OutlinedTextField(value = loc, onValueChange = { loc = it }, label = { Text("Location / Thana") }, shape = RoundedCornerShape(18.dp), colors = fieldColors)
+                    OutlinedTextField(value = desc, onValueChange = { desc = it }, label = { Text("Narrative") }, minLines = 3, shape = RoundedCornerShape(18.dp), colors = fieldColors)
                 }
             },
             confirmButton = {
@@ -493,7 +565,8 @@ fun IncidentDetailScreen(
                         viewModel.updateIncident(current.id, desc, loc, brand, model, imei.ifBlank { null })
                         showEditDialog = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                 ) { Text("Save") }
             },
             dismissButton = {
@@ -506,18 +579,20 @@ fun IncidentDetailScreen(
         val draftBody = current.reportDraftText ?: "Generating draft..."
         AlertDialog(
             onDismissRequest = { showReportModal = false },
-            containerColor = CharcoalSurface,
-            title = { Text("Verified Draft Preview", color = LimeAccent) },
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
+            title = { Text("Verified Draft Preview", color = SoftCharcoal) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Compare confirmed fields carefully. Guardian AI does NOT submit to Bangladesh Police.", style = MaterialTheme.typography.labelSmall, color = AmberWarning)
+                    Text("Compare confirmed fields carefully. Guardian AI does NOT submit to Bangladesh Police.", style = MaterialTheme.typography.labelSmall, color = WarmCoral)
                     Text(draftBody, style = MaterialTheme.typography.bodyMedium, color = TextPrimary)
                 }
             },
             confirmButton = {
                 Button(
                     onClick = { viewModel.exportAndSharePdf(current) },
-                    colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                 ) { Text("Export PDF") }
             },
             dismissButton = {
@@ -529,7 +604,8 @@ fun IncidentDetailScreen(
     if (showCancelConfirm) {
         AlertDialog(
             onDismissRequest = { showCancelConfirm = false },
-            containerColor = CharcoalSurface,
+            containerColor = SoftCreamSurface,
+            shape = RoundedCornerShape(28.dp),
             title = { Text("Cancel this incident?", color = TextPrimary) },
             text = { Text("Your timeline history will remain preserved locally for auditability.", color = TextSecondary) },
             confirmButton = {
@@ -538,7 +614,8 @@ fun IncidentDetailScreen(
                         viewModel.transitionIncident(current.id, "cancelled")
                         showCancelConfirm = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = CrimsonAlert),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = WarmCoral, contentColor = OnCharcoal),
                 ) { Text("Confirm Cancel") }
             },
             dismissButton = {

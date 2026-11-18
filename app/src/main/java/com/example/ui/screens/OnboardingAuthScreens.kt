@@ -1,6 +1,7 @@
 package com.example.ui.screens
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,10 +20,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudOff
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.outlined.CloudOff
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,6 +34,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -44,20 +46,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.ui.theme.CardSurface
-import com.example.ui.theme.CharcoalSurface
+import com.example.ui.theme.ButterYellow
+import com.example.ui.theme.ButterYellowSoft
+import com.example.ui.theme.CreamFieldSurface
+import com.example.ui.theme.DottedStroke
 import com.example.ui.theme.GuardianCard
-import com.example.ui.theme.LimeAccent
-import com.example.ui.theme.LimeGlowTint
-import com.example.ui.theme.ObsidianBlack
-import com.example.ui.theme.SubtleBorder
+import com.example.ui.theme.OnCharcoal
+import com.example.ui.theme.OrganicWellnessBadge
+import com.example.ui.theme.PastelPink
+import com.example.ui.theme.PowderBlue
+import com.example.ui.theme.PowderBlueSoft
+import com.example.ui.theme.SageGreen
+import com.example.ui.theme.SageGreenSoft
+import com.example.ui.theme.SoftCharcoal
+import com.example.ui.theme.SoftCreamSurface
+import com.example.ui.theme.SoftOutline
+import com.example.ui.theme.TextMuted
 import com.example.ui.theme.TextPrimary
 import com.example.ui.theme.TextSecondary
+import com.example.ui.theme.WarmIvory
 
 private data class OnboardingPage(
     val icon: ImageVector,
@@ -65,6 +77,9 @@ private data class OnboardingPage(
     val titleBn: String,
     val bodyEn: String,
     val bodyBn: String,
+    val primaryColor: Color,
+    val secondaryColor: Color,
+    val tertiaryColor: Color,
 )
 
 @Composable
@@ -79,25 +94,34 @@ fun OnboardingScreen(
     val pages = remember {
         listOf(
             OnboardingPage(
-                icon = Icons.Filled.Shield,
-                titleEn = "Guided Theft & Loss Response",
-                titleBn = "মোবাইল চুরি বা হারানো পরবর্তী দ্রুত সুরক্ষা",
-                bodyEn = "Guardian AI guides you through SIM blocking, bKash/Nagad/Rocket protection, device lock steps, and Online GD preparation in English & Bangla.",
+                icon = Icons.Outlined.Shield,
+                titleEn = "Calm, Guided\nTheft & Loss Response",
+                titleBn = "মোবাইল হারানো পরবর্তী\nশান্ত ও দ্রুত সুরক্ষা",
+                bodyEn = "Guardian AI walks you gently through SIM blocking, bKash & Nagad protection, device lock steps, and Online GD preparation in English & Bangla.",
                 bodyBn = "ফোন হারালে বা চুরি হলে সিম ব্লক, বিকাশ/নগদ সুরক্ষা এবং অনলাইন জিডি খসড়া তৈরিতে Guardian AI ধাপে ধাপে সহায়তা করে।",
+                primaryColor = ButterYellow,
+                secondaryColor = PastelPink,
+                tertiaryColor = SageGreen,
             ),
             OnboardingPage(
-                icon = Icons.Filled.CloudOff,
-                titleEn = "Offline-First & Private by Design",
-                titleBn = "ইন্টারনেট ছাড়াই নিরাপদ সংরক্ষণ",
-                bodyEn = "Log incidents, preserve timelines, and view verified Bangladesh emergency helplines without internet. IMEIs are encrypted in Android Keystore.",
+                icon = Icons.Outlined.CloudOff,
+                titleEn = "Offline-First &\nPrivate by Design",
+                titleBn = "ইন্টারনেট ছাড়াই\nনিরাপদ সংরক্ষণ",
+                bodyEn = "Log incidents, preserve timelines, and view verified Bangladesh helplines without internet. IMEIs stay encrypted inside Android Keystore.",
                 bodyBn = "ইন্টারনেট না থাকলেও ঘটনা ও টাইমলাইন সংরক্ষণ করুন। আপনার IMEI অ্যান্ড্রয়েড কী-স্টোরে এনক্রিপ্টেড অবস্থায় থাকে।",
+                primaryColor = PowderBlueSoft,
+                secondaryColor = ButterYellow,
+                tertiaryColor = PastelPink,
             ),
             OnboardingPage(
-                icon = Icons.Filled.Lock,
-                titleEn = "Zero Unnecessary Permissions",
-                titleBn = "শুধুমাত্র প্রয়োজনে ও আপনার সম্মতিতে অনুমতি",
-                bodyEn = "We never ask for storage or location during setup. Location is captured ONLY when you tap Capture Location in Emergency Mode.",
+                icon = Icons.Outlined.Lock,
+                titleEn = "Zero Unnecessary\nPermissions",
+                titleBn = "শুধুমাত্র আপনার\nসম্মতিতে অনুমতি",
+                bodyEn = "We never ask for storage or location during setup. Location is captured ONLY when you explicitly tap Capture Location in Emergency Mode.",
                 bodyBn = "সেটআপের সময় অপ্রয়োজনীয় অনুমতি চাওয়া হয় না। শুধুমাত্র আপনি চাইলে জরুরি অবস্থায় লোকেশন নেওয়া হবে।",
+                primaryColor = SageGreenSoft,
+                secondaryColor = PowderBlue,
+                tertiaryColor = ButterYellow,
             ),
         )
     }
@@ -105,9 +129,9 @@ fun OnboardingScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack)
+            .background(WarmIvory)
             .safeDrawingPadding()
-            .padding(24.dp),
+            .padding(horizontal = 24.dp, vertical = 20.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -122,14 +146,15 @@ fun OnboardingScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(LimeAccent),
-                        contentAlignment = Alignment.Center,
+                    Surface(
+                        modifier = Modifier.size(40.dp),
+                        shape = CircleShape,
+                        color = ButterYellow,
+                        border = BorderStroke(1.dp, SoftOutline),
                     ) {
-                        Icon(Icons.Filled.Shield, contentDescription = null, tint = ObsidianBlack)
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(Icons.Outlined.Shield, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(20.dp))
+                        }
                     }
                     Text("Guardian AI", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                 }
@@ -139,80 +164,107 @@ fun OnboardingScreen(
                         selected = !bn,
                         onClick = { onLanguageChange("en") },
                         label = { Text("EN") },
+                        shape = RoundedCornerShape(50),
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = LimeAccent,
-                            selectedLabelColor = ObsidianBlack,
+                            selectedContainerColor = SoftCharcoal,
+                            selectedLabelColor = OnCharcoal,
+                            containerColor = SoftCreamSurface,
+                            labelColor = TextSecondary,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = !bn,
+                            borderColor = SoftOutline,
+                            selectedBorderColor = SoftCharcoal,
                         ),
                     )
                     FilterChip(
                         selected = bn,
                         onClick = { onLanguageChange("bn") },
                         label = { Text("বাংলা") },
+                        shape = RoundedCornerShape(50),
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = LimeAccent,
-                            selectedLabelColor = ObsidianBlack,
+                            selectedContainerColor = SoftCharcoal,
+                            selectedLabelColor = OnCharcoal,
+                            containerColor = SoftCreamSurface,
+                            labelColor = TextSecondary,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = bn,
+                            borderColor = SoftOutline,
+                            selectedBorderColor = SoftCharcoal,
                         ),
                     )
                 }
             }
 
-            AnimatedContent(targetState = page, label = "onboarding_slide") { idx ->
-                val item = pages[idx]
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(76.dp)
-                            .clip(CircleShape)
-                            .background(
-                                Brush.radialGradient(listOf(LimeGlowTint, CardSurface))
-                            ),
-                        contentAlignment = Alignment.Center,
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(vertical = 12.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                AnimatedContent(targetState = page, label = "onboarding_slide") { idx ->
+                    val item = pages[idx]
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.Start,
                     ) {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = null,
-                            tint = LimeAccent,
-                            modifier = Modifier.size(36.dp),
+                        OrganicWellnessBadge(
+                            icon = item.icon,
+                            primaryBlobColor = item.primaryColor,
+                            secondaryBlobColor = item.secondaryColor,
+                            tertiaryCircleColor = item.tertiaryColor,
+                            size = 104.dp,
                         )
-                    }
-                    Spacer(Modifier.height(28.dp))
-                    Text(
-                        text = if (bn) item.titleBn else item.titleEn,
-                        style = MaterialTheme.typography.displaySmall,
-                        color = TextPrimary,
-                    )
-                    Spacer(Modifier.height(14.dp))
-                    Text(
-                        text = if (bn) item.bodyBn else item.bodyEn,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = TextSecondary,
-                    )
-                    Spacer(Modifier.height(24.dp))
-                    GuardianCard(highlighted = true) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Icon(Icons.Filled.Description, contentDescription = null, tint = LimeAccent)
-                            Text(
-                                text = if (bn) "সহায়ক প্ল্যাটফর্ম — বাংলাদেশ পুলিশ বা ৯৯৯-এর বিকল্প নয়" else "Response Companion — Does not replace 999, Online GD, or BTRC.",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = TextPrimary,
-                            )
+                        Spacer(Modifier.height(22.dp))
+                        Text(
+                            text = if (bn) item.titleBn else item.titleEn,
+                            style = MaterialTheme.typography.displaySmall,
+                            color = TextPrimary,
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Text(
+                            text = if (bn) item.bodyBn else item.bodyEn,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = TextSecondary,
+                        )
+                        Spacer(Modifier.height(20.dp))
+                        GuardianCard(dottedBorder = true, containerColor = SoftCreamSurface) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                Surface(
+                                    modifier = Modifier.size(36.dp),
+                                    shape = CircleShape,
+                                    color = ButterYellowSoft,
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Icon(Icons.Outlined.Description, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(18.dp))
+                                    }
+                                }
+                                Text(
+                                    text = if (bn) "সহায়ক প্ল্যাটফর্ম — বাংলাদেশ পুলিশ বা ৯৯৯-এর বিকল্প নয়"
+                                    else "Response Companion — Does not replace 999, Online GD, or BTRC.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = TextPrimary,
+                                )
+                            }
                         }
                     }
                 }
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     repeat(pages.size) { idx ->
                         Box(
                             modifier = Modifier
-                                .height(6.dp)
-                                .weight(if (idx == page) 2f else 1f)
+                                .height(7.dp)
+                                .weight(if (idx == page) 2.2f else 1f)
                                 .clip(RoundedCornerShape(50))
-                                .background(if (idx == page) LimeAccent else SubtleBorder),
+                                .background(if (idx == page) SoftCharcoal else DottedStroke),
                         )
                     }
                 }
@@ -222,10 +274,10 @@ fun OnboardingScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(54.dp)
+                        .height(56.dp)
                         .testTag("onboarding_next_button"),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                 ) {
                     Text(
                         text = when {
@@ -258,10 +310,10 @@ fun AuthScreen(
     var password by remember { mutableStateOf("") }
 
     val fieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = LimeAccent,
-        unfocusedBorderColor = SubtleBorder,
-        focusedContainerColor = CharcoalSurface,
-        unfocusedContainerColor = CharcoalSurface,
+        focusedBorderColor = SoftCharcoal,
+        unfocusedBorderColor = SoftOutline,
+        focusedContainerColor = SoftCreamSurface,
+        unfocusedContainerColor = CreamFieldSurface,
         focusedTextColor = TextPrimary,
         unfocusedTextColor = TextPrimary,
     )
@@ -269,7 +321,7 @@ fun AuthScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack)
+            .background(WarmIvory)
             .safeDrawingPadding()
             .padding(24.dp),
         contentAlignment = Alignment.Center,
@@ -280,22 +332,37 @@ fun AuthScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Text(
-                text = if (isRegisterMode) (if (bn) "অ্যাকাউন্ট তৈরি করুন" else "Create Guardian Account")
-                else (if (bn) "নিরাপদ সাইন ইন" else "Sign in to Guardian AI"),
-                style = MaterialTheme.typography.headlineMedium,
-                color = TextPrimary,
-            )
-            Text(
-                text = if (bn) "সার্ভার সিঙ্ক সহ অথবা অফলাইন লোকাল মোডে ব্যবহার করুন।"
-                else "Sync incidents securely across sessions or start immediately in Offline Local Mode.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                OrganicWellnessBadge(
+                    icon = Icons.Outlined.Shield,
+                    primaryBlobColor = ButterYellow,
+                    secondaryBlobColor = PastelPink,
+                    tertiaryCircleColor = PowderBlue,
+                    size = 72.dp,
+                )
+                Column {
+                    Text(
+                        text = if (isRegisterMode) (if (bn) "অ্যাকাউন্ট তৈরি করুন" else "Create Account")
+                        else (if (bn) "নিরাপদ সাইন ইন" else "Welcome Back"),
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = TextPrimary,
+                    )
+                    Text(
+                        text = if (bn) "সার্ভার সিঙ্ক বা অফলাইন লোকাল মোড" else "Sync safely or start in Offline Local Mode",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary,
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(4.dp))
 
             if (bannerMessage != null) {
-                GuardianCard(highlighted = true) {
-                    Text(text = bannerMessage, style = MaterialTheme.typography.bodyMedium, color = LimeAccent)
+                GuardianCard(containerColor = ButterYellowSoft) {
+                    Text(text = bannerMessage, style = MaterialTheme.typography.bodyMedium, color = SoftCharcoal)
                 }
             }
 
@@ -303,16 +370,18 @@ fun AuthScreen(
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    label = { Text(if (bn) "পূর্ণ নাম" else "Full Name") },
+                    label = { Text(if (bn) "পূর্ণ নাম" else "Full Name", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth().testTag("auth_name_input"),
+                    shape = RoundedCornerShape(22.dp),
                     colors = fieldColors,
                     singleLine = true,
                 )
                 OutlinedTextField(
                     value = phone,
                     onValueChange = { phone = it },
-                    label = { Text(if (bn) "মোবাইল নম্বর (ঐচ্ছিক)" else "Phone (optional)") },
+                    label = { Text(if (bn) "মোবাইল নম্বর (ঐচ্ছিক)" else "Phone (optional)", color = TextMuted) },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(22.dp),
                     colors = fieldColors,
                     singleLine = true,
                 )
@@ -321,8 +390,9 @@ fun AuthScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text(if (bn) "ইমেইল" else "Email Address") },
+                label = { Text(if (bn) "ইমেইল" else "Email Address", color = TextMuted) },
                 modifier = Modifier.fillMaxWidth().testTag("auth_email_input"),
+                shape = RoundedCornerShape(22.dp),
                 colors = fieldColors,
                 singleLine = true,
             )
@@ -330,15 +400,16 @@ fun AuthScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text(if (bn) "পাসওয়ার্ড" else "Password (min 8 chars)") },
+                label = { Text(if (bn) "পাসওয়ার্ড" else "Password (min 8 chars)", color = TextMuted) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth().testTag("auth_password_input"),
+                shape = RoundedCornerShape(22.dp),
                 colors = fieldColors,
                 singleLine = true,
             )
 
             if (showForgotMsg) {
-                GuardianCard {
+                GuardianCard(dottedBorder = true) {
                     Text(
                         text = if (bn) "পাসওয়ার্ড রিসেট অনুরোধের জন্য আপনার ইমেইল দিন এবং আপনার অ্যাকাউন্ট প্রশাসকের সাথে যোগাযোগ করুন বা অফলাইন মোড ব্যবহার করুন।"
                         else "Password recovery requests are logged on your configured Guardian AI server. You can continue using Local Offline Mode anytime.",
@@ -359,13 +430,18 @@ fun AuthScreen(
                 enabled = !isBusy && email.isNotBlank() && password.length >= 6,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp)
+                    .height(54.dp)
                     .testTag("auth_submit_button"),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                shape = RoundedCornerShape(50),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = SoftCharcoal,
+                    contentColor = OnCharcoal,
+                    disabledContainerColor = SoftCharcoal.copy(alpha = 0.25f),
+                    disabledContentColor = OnCharcoal,
+                ),
             ) {
                 if (isBusy) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = ObsidianBlack, strokeWidth = 2.dp)
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = OnCharcoal, strokeWidth = 2.dp)
                 } else {
                     Text(
                         text = if (isRegisterMode) (if (bn) "নিবন্ধন করুন" else "Register") else (if (bn) "সাইন ইন" else "Sign In"),
@@ -382,7 +458,7 @@ fun AuthScreen(
                     Text(
                         text = if (isRegisterMode) (if (bn) "ইতিমধ্যে অ্যাকাউন্ট আছে?" else "Have an account? Sign in")
                         else (if (bn) "নতুন অ্যাকাউন্ট খুলুন" else "Create new account"),
-                        color = LimeAccent,
+                        color = SoftCharcoal,
                     )
                 }
                 TextButton(onClick = { showForgotMsg = !showForgotMsg }) {
@@ -390,19 +466,22 @@ fun AuthScreen(
                 }
             }
 
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(4.dp))
             OutlinedButton(
                 onClick = { onOfflineWorkspace(fullName.ifBlank { "Guardian User" }) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(54.dp)
                     .testTag("offline_workspace_button"),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(50),
+                border = BorderStroke(1.2.dp, SoftCharcoal.copy(alpha = 0.35f)),
+                colors = ButtonDefaults.outlinedButtonColors(containerColor = ButterYellowSoft),
             ) {
-                Icon(Icons.Filled.CloudOff, contentDescription = null, tint = LimeAccent, modifier = Modifier.size(18.dp))
+                Icon(Icons.Outlined.CloudOff, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(18.dp))
                 Text(
                     text = if (bn) "  অফলাইন লোকাল মোডে প্রবেশ করুন" else "  Continue in Offline-First Mode",
-                    color = TextPrimary,
+                    color = SoftCharcoal,
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
         }

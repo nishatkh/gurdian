@@ -2,23 +2,35 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val ObsidianBlack = Color(0xFF050505)
-val CharcoalSurface = Color(0xFF111111)
-val CardSurface = Color(0xFF171717)
-val ElevatedSurface = Color(0xFF202020)
+// Minimalist Organic Wellness UI with Soft Neumorphism & Playful Editorial Design
+val WarmIvory = Color(0xFFF8F3E7)          // Warm cream canvas background
+val SoftCreamSurface = Color(0xFFFCF9F2)   // Raised soft-neumorphic card base
+val CreamFieldSurface = Color(0xFFF3EDE0)  // Recessed soft-neumorphic field
+val ButterYellow = Color(0xFFF4DF72)       // Soft butter yellow accent
+val PastelPink = Color(0xFFEFB9D8)         // Dusty pastel pink accent
+val SageGreen = Color(0xFFA9B77D)          // Muted organic sage green accent
+val PowderBlue = Color(0xFFAFC5E8)         // Soft powder blue accent
+val SoftCharcoal = Color(0xFF242322)       // Near-black editorial ink & dark dock
 
-val LimeAccent = Color(0xFFB6FF55)
-val MutedLime = Color(0xFF76A834)
-val DeepOlive = Color(0xFF1A280D)
-val LimeGlowTint = Color(0x29B6FF55)
+// Soft pastel surface washes (for large readable cards without harsh saturation)
+val ButterYellowSoft = Color(0xFFF8EAA0)
+val PastelPinkSoft = Color(0xFFF6D5E8)
+val SageGreenSoft = Color(0xFFDCE3C6)
+val PowderBlueSoft = Color(0xFFD5E1F4)
 
-val TextPrimary = Color(0xFFF5F7F2)
-val TextSecondary = Color(0xFF9CA3AF)
-val TextMuted = Color(0xFF6B7280)
+// Typography & Ink
+val TextPrimary = SoftCharcoal             // High-contrast warm charcoal
+val TextSecondary = Color(0xFF5D5953)      // Understated warm stone
+val TextMuted = Color(0xFF8C867D)          // Muted taupe secondary metadata
+val OnCharcoal = Color(0xFFFFFCF7)         // Warm cream ink on SoftCharcoal
 
-val SubtleBorder = Color(0xFF262626)
-val LimeSubtleBorder = Color(0x40B6FF55)
+// Outlines, Dotted Accents & Subtle Soft-Neumorphic Elevation
+val SoftOutline = Color(0x1E242322)        // Subtle 12% outline
+val DottedStroke = Color(0x42242322)       // Delicate dotted editorial border
+val NeumorphHighlight = Color(0xFFFFFFFF)  // Soft light top rim
+val SoftShadow = Color(0x10242322)         // Feather-light ambient elevation
 
-val AmberWarning = Color(0xFFF59E0B)
-val CrimsonAlert = Color(0xFFEF4444)
-val EmeraldSafe = Color(0xFF22C55E)
+// Muted Semantic Tints (never neon)
+val WarmCoral = Color(0xFFC85B45)          // Muted terracotta for urgent/destructive actions
+val WarmCoralSoft = Color(0xFFF3DCD6)
+val OliveTrack = Color(0xFFE7E0D0)         // Soft warm track for circular/linear indicators

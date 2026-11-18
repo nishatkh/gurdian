@@ -4,8 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,19 +18,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.DeleteSweep
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.Send
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.DeleteSweep
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -42,6 +45,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,22 +58,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.ui.theme.AmberWarning
-import com.example.ui.theme.CardSurface
-import com.example.ui.theme.CharcoalSurface
-import com.example.ui.theme.DeepOlive
-import com.example.ui.theme.EmeraldSafe
+import com.example.ui.theme.ButterYellow
+import com.example.ui.theme.ButterYellowSoft
+import com.example.ui.theme.CreamFieldSurface
 import com.example.ui.theme.EmptyStateView
 import com.example.ui.theme.GuardianCard
-import com.example.ui.theme.LimeAccent
-import com.example.ui.theme.ObsidianBlack
+import com.example.ui.theme.OnCharcoal
+import com.example.ui.theme.OrganicEditorialCard
+import com.example.ui.theme.PastelPink
+import com.example.ui.theme.PowderBlue
+import com.example.ui.theme.SageGreen
+import com.example.ui.theme.SageGreenSoft
+import com.example.ui.theme.SoftCharcoal
+import com.example.ui.theme.SoftCreamSurface
+import com.example.ui.theme.SoftOutline
 import com.example.ui.theme.StatusPill
-import com.example.ui.theme.SubtleBorder
 import com.example.ui.theme.TextMuted
 import com.example.ui.theme.TextPrimary
 import com.example.ui.theme.TextSecondary
 import com.example.ui.theme.TimelineStepRow
+import com.example.ui.theme.WarmCoral
+import com.example.ui.theme.WarmIvory
 import com.example.ui.viewmodel.GuardianMainUiState
 import com.example.ui.viewmodel.GuardianViewModel
 import java.text.SimpleDateFormat
@@ -87,16 +99,17 @@ fun ActivityScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack),
-        contentPadding = PaddingValues(18.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .background(WarmIvory),
+        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 116.dp),
+        verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
         item {
             Text(
-                text = if (bn) "কার্যক্রম ও সিঙ্ক" else "Activity & Synchronization",
+                text = if (bn) "কার্যক্রম ও সিঙ্ক" else "Activity & Sync",
                 style = MaterialTheme.typography.headlineMedium,
                 color = TextPrimary,
             )
+            Spacer(Modifier.height(2.dp))
             Text(
                 text = if (bn) "অফলাইন আউটবক্স কিউ ও ইভেন্ট ইতিহাস" else "Offline outbox queue, timeline & audit events",
                 style = MaterialTheme.typography.bodyMedium,
@@ -104,33 +117,45 @@ fun ActivityScreen(
             )
         }
 
-        // Sync Outbox Status Card
+        // Sync Outbox Status Card with Bold Numerical Indicator
         item {
-            GuardianCard(highlighted = true) {
+            OrganicEditorialCard(
+                containerColor = SageGreenSoft,
+                blobColor = SageGreen,
+                accentShapeColor = ButterYellow,
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
                         Text(
-                            text = if (bn) "অফলাইন আউটবক্স সিঙ্ক" else "Outbox Sync Queue",
-                            style = MaterialTheme.typography.titleMedium,
+                            text = "${state.pendingSyncCount}",
+                            style = MaterialTheme.typography.displayMedium,
+                            fontWeight = FontWeight.Bold,
                             color = TextPrimary,
                         )
                         Text(
-                            text = if (state.pendingSyncCount > 0) "${state.pendingSyncCount} item(s) waiting safely in Room"
+                            text = if (bn) "অফলাইন আউটবক্স কিউ" else "Outbox Items Queued",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = TextPrimary,
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = if (state.pendingSyncCount > 0) "Waiting safely in encrypted local storage"
                             else "All local records synchronized",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (state.pendingSyncCount > 0) AmberWarning else EmeraldSafe,
+                            color = TextSecondary,
                         )
                     }
                     Button(
                         onClick = onSyncNow,
-                        modifier = Modifier.testTag("sync_now_button"),
-                        colors = ButtonDefaults.buttonColors(containerColor = LimeAccent, contentColor = ObsidianBlack),
+                        modifier = Modifier.height(48.dp).testTag("sync_now_button"),
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(containerColor = SoftCharcoal, contentColor = OnCharcoal),
                     ) {
-                        Icon(Icons.Filled.Sync, contentDescription = null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Outlined.Sync, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
                         Text(if (bn) "সিঙ্ক" else "Sync Now")
                     }
@@ -139,14 +164,38 @@ fun ActivityScreen(
         }
 
         item {
-            GuardianCard(onClick = onOpenAssistant) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Icon(Icons.Filled.AutoAwesome, contentDescription = null, tint = LimeAccent)
-                    Text(
-                        text = if (bn) "Guardian AI সহকারী খুলুন" else "Open Guardian AI Security Assistant",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = TextPrimary,
-                    )
+            OrganicEditorialCard(
+                containerColor = ButterYellowSoft,
+                blobColor = ButterYellow,
+                accentShapeColor = PastelPink,
+                onClick = onOpenAssistant,
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Surface(
+                            modifier = Modifier.size(44.dp),
+                            shape = CircleShape,
+                            color = SoftCharcoal,
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(Icons.Outlined.AutoAwesome, contentDescription = null, tint = ButterYellow, modifier = Modifier.size(20.dp))
+                            }
+                        }
+                        Text(
+                            text = if (bn) "Guardian AI সহকারী খুলুন" else "Open Guardian AI Assistant",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = TextPrimary,
+                        )
+                    }
+                    Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = null, tint = SoftCharcoal, modifier = Modifier.size(18.dp))
                 }
             }
         }
@@ -154,7 +203,7 @@ fun ActivityScreen(
         if (state.recentEvents.isEmpty() && state.shareLogs.isEmpty()) {
             item {
                 EmptyStateView(
-                    icon = Icons.Filled.History,
+                    icon = Icons.Outlined.History,
                     title = if (bn) "এখনও কোনো কার্যক্রম নেই" else "No Activity Logged Yet",
                     description = if (bn) "আপনি ঘটনা যোগ করলে বা চেকলিস্ট আপডেট করলে এখানে টাইমলাইন দেখাবে।"
                     else "Timeline events, checklist updates, and consent-based shares appear here.",
@@ -162,15 +211,16 @@ fun ActivityScreen(
             }
         } else {
             item {
-                GuardianCard {
+                GuardianCard(containerColor = SoftCreamSurface) {
                     Text(if (bn) "সাম্প্রতিক টাইমলাইন" else "Chronological Event Log", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
-                    Spacer(Modifier.height(10.dp))
+                    Spacer(Modifier.height(14.dp))
                     state.recentEvents.forEachIndexed { idx, ev ->
                         TimelineStepRow(
                             title = ev.eventType.replace('_', ' ').replaceFirstChar { it.uppercase() },
                             subtitle = ev.note,
                             timestamp = fmt.format(Date(ev.eventTimestampMillis)),
                             isLast = idx == state.recentEvents.lastIndex,
+                            accentColor = if (idx == 0) ButterYellow else PowderBlue,
                         )
                     }
                 }
@@ -213,43 +263,76 @@ fun AssistantScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ObsidianBlack)
-            .padding(16.dp),
+            .background(WarmIvory)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
     ) {
-        Row(
+        Surface(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            shape = RoundedCornerShape(28.dp),
+            color = SoftCreamSurface,
+            border = BorderStroke(1.dp, SoftOutline),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = SoftCharcoal)
+                    }
+                    Column {
+                        Text("Guardian AI", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                        Text("RAG-grounded • Bangla & English", style = MaterialTheme.typography.labelSmall, color = TextSecondary)
+                    }
                 }
-                Column {
-                    Text("Guardian AI Assistant", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
-                    Text("RAG-grounded • Bangla & English", style = MaterialTheme.typography.labelSmall, color = LimeAccent)
-                }
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                FilterChip(
-                    selected = !bn,
-                    onClick = { viewModel.toggleLanguage("en") },
-                    label = { Text("EN") },
-                    colors = FilterChipDefaults.filterChipColors(selectedContainerColor = LimeAccent, selectedLabelColor = ObsidianBlack),
-                )
-                FilterChip(
-                    selected = bn,
-                    onClick = { viewModel.toggleLanguage("bn") },
-                    label = { Text("বাং") },
-                    colors = FilterChipDefaults.filterChipColors(selectedContainerColor = LimeAccent, selectedLabelColor = ObsidianBlack),
-                )
-                IconButton(onClick = { viewModel.clearChat() }) {
-                    Icon(Icons.Filled.DeleteSweep, contentDescription = "Clear chat", tint = TextSecondary)
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    FilterChip(
+                        selected = !bn,
+                        onClick = { viewModel.toggleLanguage("en") },
+                        label = { Text("EN") },
+                        shape = RoundedCornerShape(50),
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = SoftCharcoal,
+                            selectedLabelColor = OnCharcoal,
+                            containerColor = CreamFieldSurface,
+                            labelColor = TextSecondary,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = !bn,
+                            borderColor = SoftOutline,
+                            selectedBorderColor = SoftCharcoal,
+                        ),
+                    )
+                    FilterChip(
+                        selected = bn,
+                        onClick = { viewModel.toggleLanguage("bn") },
+                        label = { Text("বাং") },
+                        shape = RoundedCornerShape(50),
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = SoftCharcoal,
+                            selectedLabelColor = OnCharcoal,
+                            containerColor = CreamFieldSurface,
+                            labelColor = TextSecondary,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = bn,
+                            borderColor = SoftOutline,
+                            selectedBorderColor = SoftCharcoal,
+                        ),
+                    )
+                    IconButton(onClick = { viewModel.clearChat() }) {
+                        Icon(Icons.Outlined.DeleteSweep, contentDescription = "Clear chat", tint = TextSecondary)
+                    }
                 }
             }
         }
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(10.dp))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(suggested) { q ->
                 SuggestionChip(
@@ -257,7 +340,10 @@ fun AssistantScreen(
                         lastUserPrompt = q
                         viewModel.askAssistant(q)
                     },
-                    label = { Text(q, maxLines = 1) },
+                    label = { Text(q, maxLines = 1, color = TextPrimary) },
+                    shape = RoundedCornerShape(50),
+                    colors = SuggestionChipDefaults.suggestionChipColors(containerColor = ButterYellowSoft),
+                    border = BorderStroke(1.dp, SoftOutline),
                 )
             }
         }
@@ -266,12 +352,13 @@ fun AssistantScreen(
 
         LazyColumn(
             modifier = Modifier.weight(1f).fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(vertical = 4.dp),
         ) {
             if (state.chatMessages.isEmpty()) {
                 item {
                     EmptyStateView(
-                        icon = Icons.Filled.AutoAwesome,
+                        icon = Icons.Outlined.AutoAwesome,
                         title = if (bn) "যাচাইকৃত নিরাপত্তা সহায়তা" else "Verified Security Guidance",
                         description = if (bn) "উপরের প্রস্তাবিত প্রশ্ন বাছুন অথবা বাংলা/ইংরেজিতে প্রশ্ন করুন।"
                         else "Ask about Online GD, SIM blocking, bKash/Nagad freeze, or your incident status.",
@@ -280,56 +367,78 @@ fun AssistantScreen(
             } else {
                 items(state.chatMessages, key = { it.id }) { msg ->
                     val isUser = msg.role == "user"
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(if (isUser) DeepOlive else CardSurface)
-                            .padding(14.dp),
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
+                        Surface(
+                            modifier = Modifier.widthIn(max = 340.dp),
+                            shape = RoundedCornerShape(24.dp),
+                            color = if (isUser) SoftCharcoal else SoftCreamSurface,
+                            border = if (isUser) null else BorderStroke(1.dp, SoftOutline),
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp),
                             ) {
-                                StatusPill(
-                                    text = if (isUser) "You" else msg.providerUsed,
-                                    color = if (isUser) LimeAccent else TextSecondary,
-                                )
-                                if (!isUser) {
-                                    Row {
-                                        IconButton(
-                                            onClick = {
-                                                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                                cm.setPrimaryClip(ClipData.newPlainText("Guardian AI", msg.text))
-                                                viewModel.showMessage("Response copied.")
-                                            },
-                                            modifier = Modifier.size(28.dp),
-                                        ) {
-                                            Icon(Icons.Filled.ContentCopy, contentDescription = "Copy", tint = TextSecondary, modifier = Modifier.size(16.dp))
-                                        }
-                                        if (lastUserPrompt.isNotBlank()) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    if (isUser) {
+                                        Text(
+                                            text = "You",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = ButterYellow,
+                                        )
+                                    } else {
+                                        StatusPill(
+                                            text = msg.providerUsed,
+                                            color = SoftCharcoal,
+                                            backgroundColor = ButterYellowSoft,
+                                        )
+                                        Row {
                                             IconButton(
-                                                onClick = { viewModel.askAssistant(lastUserPrompt) },
+                                                onClick = {
+                                                    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                                    cm.setPrimaryClip(ClipData.newPlainText("Guardian AI", msg.text))
+                                                    viewModel.showMessage("Response copied.")
+                                                },
                                                 modifier = Modifier.size(28.dp),
                                             ) {
-                                                Icon(Icons.Filled.Refresh, contentDescription = "Retry", tint = TextSecondary, modifier = Modifier.size(16.dp))
+                                                Icon(Icons.Outlined.ContentCopy, contentDescription = "Copy", tint = TextSecondary, modifier = Modifier.size(16.dp))
+                                            }
+                                            if (lastUserPrompt.isNotBlank()) {
+                                                IconButton(
+                                                    onClick = { viewModel.askAssistant(lastUserPrompt) },
+                                                    modifier = Modifier.size(28.dp),
+                                                ) {
+                                                    Icon(Icons.Outlined.Refresh, contentDescription = "Retry", tint = TextSecondary, modifier = Modifier.size(16.dp))
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = TextPrimary)
-                            if (msg.citationsSummary.isNotBlank()) {
                                 Text(
-                                    text = "Sources:\n${msg.citationsSummary}",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = LimeAccent,
+                                    text = msg.text,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = if (isUser) OnCharcoal else TextPrimary,
                                 )
-                            }
-                            if (!msg.uncertaintyNotice.isNullOrBlank()) {
-                                Text(msg.uncertaintyNotice, style = MaterialTheme.typography.labelSmall, color = AmberWarning)
+                                if (msg.citationsSummary.isNotBlank()) {
+                                    Text(
+                                        text = "Sources:\n${msg.citationsSummary}",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = if (isUser) ButterYellowSoft else TextSecondary,
+                                    )
+                                }
+                                if (!msg.uncertaintyNotice.isNullOrBlank()) {
+                                    Text(
+                                        text = msg.uncertaintyNotice,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = if (isUser) PastelPink else WarmCoral,
+                                    )
+                                }
                             }
                         }
                     }
@@ -338,14 +447,14 @@ fun AssistantScreen(
             if (isBusy) {
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        CircularProgressIndicator(modifier = Modifier.size(18.dp), color = LimeAccent, strokeWidth = 2.dp)
+                        CircularProgressIndicator(modifier = Modifier.size(18.dp), color = SoftCharcoal, strokeWidth = 2.dp)
                         Text("Retrieving verified guidance...", style = MaterialTheme.typography.bodyMedium, color = TextSecondary)
                     }
                 }
             }
         }
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(10.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -354,13 +463,14 @@ fun AssistantScreen(
             OutlinedTextField(
                 value = prompt,
                 onValueChange = { prompt = it },
-                placeholder = { Text(if (bn) "বাংলা বা ইংরেজিতে প্রশ্ন লিখুন..." else "Ask in English or Bangla...") },
+                placeholder = { Text(if (bn) "বাংলা বা ইংরেজিতে প্রশ্ন লিখুন..." else "Ask in English or Bangla...", color = TextMuted) },
                 modifier = Modifier.weight(1f).testTag("assistant_prompt_input"),
+                shape = RoundedCornerShape(28.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = LimeAccent,
-                    unfocusedBorderColor = SubtleBorder,
-                    focusedContainerColor = CharcoalSurface,
-                    unfocusedContainerColor = CharcoalSurface,
+                    focusedBorderColor = SoftCharcoal,
+                    unfocusedBorderColor = SoftOutline,
+                    focusedContainerColor = SoftCreamSurface,
+                    unfocusedContainerColor = CreamFieldSurface,
                     focusedTextColor = TextPrimary,
                     unfocusedTextColor = TextPrimary,
                 ),
@@ -374,12 +484,12 @@ fun AssistantScreen(
                     }
                 },
                 modifier = Modifier
-                    .size(50.dp)
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(LimeAccent)
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(SoftCharcoal)
                     .testTag("assistant_send_button"),
             ) {
-                Icon(Icons.Filled.Send, contentDescription = "Send", tint = ObsidianBlack)
+                Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = "Send", tint = ButterYellow)
             }
         }
     }
